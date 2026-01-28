@@ -15,7 +15,7 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('portfolio.show', ['username' => Auth::user()->username ?? Auth::user()->name])" :active="request()->routeIs('portfolio.show')">
+                    <x-nav-link :href="route('portfolio.show', ['id' => Auth::id()])" :active="request()->routeIs('portfolio.show')">
                         {{ __('My Portfolio') }}
                     </x-nav-link>
                 </div>
@@ -73,7 +73,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('portfolio.show', ['username' => Auth::user()->username ?? Auth::user()->name])" :active="request()->routeIs('portfolio.show')">
+            <x-responsive-nav-link :href="route('portfolio.show', ['id' => Auth::id()])" :active="request()->routeIs('portfolio.show')">
                 {{ __('My Portfolio') }}
             </x-responsive-nav-link>
         </div>

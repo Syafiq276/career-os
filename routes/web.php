@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Route;
 // Public portfolio (CareerOS RPG HUD)
 Route::get('/', [PortfolioController::class, 'index'])->name('home');
 
-// Public portfolio by username
-Route::get('/portfolio/{username}', [PortfolioController::class, 'show'])->name('portfolio.show');
+// Public portfolio by user ID
+Route::get('/portfolio/{id}', [PortfolioController::class, 'show'])->name('portfolio.show');
 
 // Social Authentication (GitHub, Google)
 Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])->name('auth.social.redirect');

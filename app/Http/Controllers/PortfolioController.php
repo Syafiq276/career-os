@@ -45,10 +45,10 @@ class PortfolioController extends Controller
     /**
      * Show a specific user's portfolio.
      */
-    public function show($username)
+    public function show($id)
     {
         // Eager load relationships with select statements to minimize data transfer
-        $user = User::where('name', $username)
+        $user = User::where('id', $id)
             ->public()
             ->with([
                 'projects' => function($query) {
