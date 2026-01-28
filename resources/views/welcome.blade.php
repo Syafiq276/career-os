@@ -69,7 +69,11 @@
                 <div class="flex items-center space-x-2 sm:space-x-6">
                     @auth
                         @if(auth()->id() === $user->id)
-                            <a href="{{ route('applications.index') }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-[10px] sm:text-sm">
+                            <a href="{{ route('portfolio.show', ['username' => auth()->user()->username ?? auth()->user()->name]) }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-[10px] sm:text-sm">
+                                <span class="hidden sm:inline">[ MY_PORTFOLIO ]</span>
+                                <span class="sm:hidden">[ MINE ]</span>
+                            </a>
+                            <a href="{{ route('applications.index') }}" class="text-cyan-400 hover:text-cyan-300 transition font-mono text-[10px] sm:text-sm">
                                 <span class="hidden sm:inline">[ ADMIN_PANEL ]</span>
                                 <span class="sm:hidden">[ ADMIN ]</span>
                             </a>
