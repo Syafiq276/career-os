@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Route;
 // Public portfolio (CareerOS RPG HUD)
 Route::get('/', [PortfolioController::class, 'index'])->name('home');
 
+// Test route for debugging layout
+Route::get('/test', function () {
+    return view('test');
+})->middleware('auth');
+
 // Public portfolio by user ID
 Route::get('/portfolio/{id}', [PortfolioController::class, 'show'])->name('portfolio.show');
 
