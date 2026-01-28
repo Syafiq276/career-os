@@ -39,13 +39,23 @@ RUN chown -R www-data:www-data /var/www/html \
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Run Laravel optimizations
-RUN php artisan config:cache || true \
-    && php artisan route:cache || true \
-    && php artisan view:cache || true
-
 # Expose port (Render will set $PORT)
 EXPOSE ${PORT:-8080}
 
-# Start Laravel's built-in server on Render's dynamic PORT
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
+# Create startup script
+RUN echo '#!/bin/sh\n\
+set -e\n\
+echo "Waiting for database..."\n\
+sleep 5\n\
+echo "Running migrations..."\n\
+php artisan migrate --force || echo "Migration failed, continuing..."\n\
+echo "Clearing caches..."\n\
+php artisan config:clear\n\
+php artisan cache:clear\n\
+php artisan view:clear\n\
+echo "Starting server on port ${PORT:-8080}..."\n\
+php artisan serve --host=0.0.0.0 --port=${PORT:-8080}\n\
+' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
+
+# Start using the script
+CMD ["/usr/local/bin/start.sh"]
