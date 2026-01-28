@@ -5,7 +5,7 @@ FROM php:8.2-cli
 # Set working directory
 WORKDIR /var/www/html
 
-# Install system dependencies (minimal for CLI mode)
+# Install system dependencies (minimal for CLI mode + Node.js for asset building)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     zip \
     unzip \
+    nodejs \
+    npm \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions (PostgreSQL instead of MySQL for Render)
@@ -38,6 +40,9 @@ RUN chown -R www-data:www-data /var/www/html \
 
 # Install PHP dependencies (including Faker for seeding)
 RUN composer install --optimize-autoloader --no-interaction
+
+# Install Node dependencies and build frontend assets
+RUN npm install && npm run build
 
 # Expose port (Render will set $PORT)
 EXPOSE ${PORT:-8080}
