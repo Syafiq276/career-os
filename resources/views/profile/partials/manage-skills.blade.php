@@ -7,6 +7,28 @@
         <p class="mt-1 text-sm text-gray-600">
             {{ __("Add and manage your skills for the RPG-style skill tree visualization on your portfolio.") }}
         </p>
+
+        <!-- Auto-generate button -->
+        <div class="mt-4">
+            <form method="POST" action="{{ route('skills.generate') }}" class="inline">
+                @csrf
+                <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    Auto-Generate from Projects
+                </button>
+            </form>
+            <p class="mt-2 text-xs text-gray-500">
+                Automatically detect skills from your synced GitHub repositories' tech stacks.
+            </p>
+        </div>
+
+        @if (session('skill-error'))
+            <div class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p class="text-sm text-red-800">{{ session('skill-error') }}</p>
+            </div>
+        @endif
     </header>
 
     <!-- Add New Skill Form -->

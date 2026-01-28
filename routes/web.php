@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     
     // Skill Management
     Route::post('/skills', [SkillController::class, 'store'])->name('skills.store');
+    Route::post('/skills/generate', [SkillController::class, 'generateFromProjects'])->name('skills.generate');
     Route::delete('/skills/{skill}', [SkillController::class, 'destroy'])->name('skills.destroy');
     
     // GitHub Integration
