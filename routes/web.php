@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     
     // GitHub Repository Sync
     Route::get('/github/sync-repos', [GitHubSyncController::class, 'index'])->name('github.sync-repos');
-    Route::post('/github/sync-selected', [GitHubSyncController::class, 'sync'])->name('github.sync');
+    Route::post('/github/sync-selected', [GitHubSyncController::class, 'sync'])->name('github.sync-selected');
     Route::post('/github/sync-all', [GitHubSyncController::class, 'syncAll'])->name('github.sync-all');
     Route::get('/github/preview', [GitHubSyncController::class, 'preview'])->name('github.preview');
 });

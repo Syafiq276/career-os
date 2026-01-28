@@ -36,8 +36,8 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Install PHP dependencies (including Faker for seeding)
+RUN composer install --optimize-autoloader --no-interaction
 
 # Expose port (Render will set $PORT)
 EXPOSE ${PORT:-8080}
@@ -59,8 +59,6 @@ php artisan config:clear 2>&1\n\
 php artisan cache:clear 2>&1\n\
 php artisan view:clear 2>&1\n\
 php artisan route:clear 2>&1\n\
-echo "==> Caching routes..."\n\
-php artisan route:cache 2>&1 || echo "Route cache failed, continuing..."\n\
 echo "==> Checking users in database..."\n\
 php artisan tinker --execute="echo \\"Users count: \\" . \\App\\Models\\User::count();" 2>&1 || echo "Could not count users"\n\
 echo "==> Starting Laravel server on port ${PORT:-8080}..."\n\
