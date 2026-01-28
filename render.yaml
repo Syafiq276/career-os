@@ -23,30 +23,9 @@ services:
         value: database
       - key: DB_CONNECTION
         value: pgsql
-      - key: DB_HOST
-        fromDatabase:
-          name: careeros-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: careeros-db
-          property: port
-      - key: DB_DATABASE
-        fromDatabase:
-          name: careeros-db
-          property: database
-      - key: DB_USERNAME
-        fromDatabase:
-          name: careeros-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: careeros-db
-          property: password
 
-  # PostgreSQL Database
-  - type: pserv
-    name: careeros-db
-    plan: free
+databases:
+  - name: careeros-db
     databaseName: careeros
     user: careeros_user
+    plan: free
