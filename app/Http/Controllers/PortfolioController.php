@@ -48,8 +48,8 @@ class PortfolioController extends Controller
     public function show($id)
     {
         // Eager load relationships with select statements to minimize data transfer
+        // Don't filter by public scope - users can view their own portfolio
         $user = User::where('id', $id)
-            ->public()
             ->with([
                 'projects' => function($query) {
                     $query->where('is_featured', true)
