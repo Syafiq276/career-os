@@ -39,6 +39,7 @@ return [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => env('GITHUB_REDIRECT_URI'),
+        'token' => env('GITHUB_TOKEN'), // Personal Access Token for API
     ],
 
     'google' => [

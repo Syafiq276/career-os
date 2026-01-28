@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\GitHubController;
+use App\Http\Controllers\GitHubSyncController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/github/callback', [GitHubController::class, 'callback'])->name('github.callback');
     Route::post('/github/sync', [GitHubController::class, 'sync'])->name('github.sync');
     Route::post('/github/disconnect', [GitHubController::class, 'disconnect'])->name('github.disconnect');
+    
+    // GitHub Repository Sync
+    Route::get('/github/sync-repos', [GitHubSyncController::class, 'index'])->name('github.sync-repos');
+    Route::post('/github/sync-selected', [GitHubSyncController::class, 'sync'])->name('github.sync');
+    Route::post('/github/sync-all', [GitHubSyncController::class, 'syncAll'])->name('github.sync-all');
+    Route::get('/github/preview', [GitHubSyncController::class, 'preview'])->name('github.preview');
 });
 
 require __DIR__.'/auth.php';

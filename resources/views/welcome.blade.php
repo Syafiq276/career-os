@@ -121,7 +121,7 @@
                             <span class="text-gray-400">{{ $totalXp % 1000 }}/1000</span>
                         </div>
                         <div class="w-full bg-slate-700 rounded-full h-3 border border-emerald-500">
-                            <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full rounded-full transition-all duration-500" style="width: {{ $xpProgress }}%"></div>
+                            <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full rounded-full transition-all duration-500" style="width: {{ $xpProgress }}%;"></div>
                         </div>
                     </div>
                     <p class="text-xs text-gray-500 font-mono">{{ $xpToNextLevel }} XP to Level {{ $level + 1 }}</p>
@@ -301,7 +301,7 @@
     <!-- Chart.js Configuration -->
     <script>
         // Skill Radar Chart
-        const skillData = @json($skills);
+        const skillData = {!! json_encode($skills) !!};
         
         const ctx = document.getElementById('skillRadar').getContext('2d');
         const skillRadar = new Chart(ctx, {
