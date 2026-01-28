@@ -58,27 +58,29 @@
 
     <!-- Navigation Bar -->
     <nav class="bg-slate-950 border-b-2 border-emerald-500 sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14 sm:h-16">
                 <div class="flex items-center">
-                    <span class="text-2xl font-orbitron font-bold text-emerald-400 neon-text glitch">
+                    <span class="text-lg sm:text-2xl font-orbitron font-bold text-emerald-400 neon-text glitch">
                         &lt;CAREER<span class="text-yellow-400">OS</span>/&gt;
                     </span>
-                    <span class="ml-4 text-xs text-emerald-500 font-mono">v2.0.26</span>
+                    <span class="ml-2 sm:ml-4 text-[10px] sm:text-xs text-emerald-500 font-mono">v2.0.26</span>
                 </div>
-                <div class="flex items-center space-x-6">
+                <div class="flex items-center space-x-2 sm:space-x-6">
                     @auth
                         @if(auth()->id() === $user->id)
-                            <a href="{{ route('applications.index') }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-sm">
-                                [ ADMIN_PANEL ]
+                            <a href="{{ route('applications.index') }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-[10px] sm:text-sm">
+                                <span class="hidden sm:inline">[ ADMIN_PANEL ]</span>
+                                <span class="sm:hidden">[ ADMIN ]</span>
                             </a>
                         @endif
                     @else
-                        <a href="{{ route('login') }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-sm">
+                        <a href="{{ route('login') }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-[10px] sm:text-sm">
                             [ LOGIN ]
                         </a>
-                        <a href="{{ route('register') }}" class="bg-emerald-500 hover:bg-emerald-600 px-4 py-2 text-slate-900 font-bold font-mono text-sm transition">
-                            [ REGISTER ]
+                        <a href="{{ route('register') }}" class="bg-emerald-500 hover:bg-emerald-600 px-2 py-1 sm:px-4 sm:py-2 text-slate-900 font-bold font-mono text-[10px] sm:text-sm transition">
+                            <span class="hidden sm:inline">[ REGISTER ]</span>
+                            <span class="sm:hidden">[ REG ]</span>
                         </a>
                     @endauth
                 </div>
@@ -87,17 +89,17 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
 
         <!-- HUD Header Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
             
             <!-- Player Avatar & Info -->
-            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-6">
+            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
                 <div class="flex flex-col items-center">
                     <!-- Avatar with Progress Ring -->
-                    <div class="relative mb-4">
-                        <div class="w-32 h-32 rounded-full bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-600 flex items-center justify-center text-4xl font-orbitron font-bold text-slate-900 shadow-lg pulse-glow">
+                    <div class="relative mb-3 sm:mb-4">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-600 flex items-center justify-center text-3xl sm:text-4xl font-orbitron font-bold text-slate-900 shadow-lg pulse-glow">
                             {{ strtoupper(substr($user->name, 0, 1)) }}
                         </div>
                         <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-emerald-500 px-3 py-1 rounded-full text-slate-900 font-orbitron font-bold text-xs">
@@ -105,14 +107,14 @@
                         </div>
                     </div>
                     
-                    <h1 class="text-2xl font-orbitron font-bold text-emerald-400 mb-1 neon-text">
+                    <h1 class="text-xl sm:text-2xl font-orbitron font-bold text-emerald-400 mb-1 neon-text text-center">
                         {{ strtoupper($user->name) }}
                     </h1>
                     
                     @if($user->job_title)
-                        <p class="text-yellow-400 font-mono text-sm mb-2">[ {{ strtoupper($user->job_title) }} ]</p>
+                        <p class="text-yellow-400 font-mono text-xs sm:text-sm mb-2 text-center">[ {{ strtoupper($user->job_title) }} ]</p>
                     @else
-                        <p class="text-yellow-400 font-mono text-sm mb-2">[ BACKEND MAGE ]</p>
+                        <p class="text-yellow-400 font-mono text-xs sm:text-sm mb-2 text-center">[ BACKEND MAGE ]</p>
                     @endif
                     
                     @if($user->location)
@@ -175,7 +177,7 @@
                     @endif
                     
                     <!-- Additional Social Media -->
-                    <div class="grid grid-cols-2 gap-2 mt-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-2 gap-2 mt-4">
                         @if($user->twitter_username)
                             <a href="https://twitter.com/{{ $user->twitter_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-sky-500 p-2 text-center text-sky-400 text-xs transition">
                                 𝕏 Twitter
@@ -240,8 +242,8 @@
             </div>
 
             <!-- Stats Panel -->
-            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-6">
-                <h2 class="text-lg font-orbitron font-bold text-emerald-400 mb-4 border-b border-emerald-500 pb-2">
+            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
+                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
                     [ PLAYER STATS ]
                 </h2>
                 
@@ -284,17 +286,17 @@
             </div>
 
             <!-- Skill Radar Chart -->
-            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-6">
-                <h2 class="text-lg font-orbitron font-bold text-emerald-400 mb-4 border-b border-emerald-500 pb-2">
+            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
+                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
                     [ SKILL TREE ]
                 </h2>
-                <canvas id="skillRadar" width="300" height="300"></canvas>
+                <canvas id="skillRadar" class="max-w-full h-auto"></canvas>
             </div>
         </div>
 
         <!-- Quest Board (Projects) -->
-        <div class="mb-8">
-            <h2 class="text-3xl font-orbitron font-bold text-emerald-400 mb-6 neon-text">
+        <div class="mb-6 sm:mb-8">
+            <h2 class="text-2xl sm:text-3xl font-orbitron font-bold text-emerald-400 mb-4 sm:mb-6 neon-text">
                 [ COMPLETED QUESTS ]
             </h2>
             
