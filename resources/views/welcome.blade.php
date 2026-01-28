@@ -8,6 +8,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto+Mono:wght@300;400;500;700&display=swap');
+
+        :root {
+            --accent: 16 185 129;
+            --accent-2: 6 182 212;
+            --accent-3: 139 92 246;
+            --accent-warm: 245 158 11;
+        }
         
         body {
             font-family: 'Roboto Mono', monospace;
@@ -19,12 +26,12 @@
         }
         
         .neon-border {
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3), inset 0 0 20px rgba(16, 185, 129, 0.1);
-            border: 2px solid rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 20px rgba(var(--accent) / 0.3), inset 0 0 20px rgba(var(--accent) / 0.1);
+            border: 2px solid rgba(var(--accent) / 0.5);
         }
-        
+
         .neon-text {
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.8), 0 0 20px rgba(16, 185, 129, 0.5);
+            text-shadow: 0 0 10px rgba(var(--accent) / 0.8), 0 0 20px rgba(var(--accent) / 0.5);
         }
         
         .glitch {
@@ -50,8 +57,24 @@
 
         .terminal-line::before {
             content: '> ';
-            color: #10b981;
+            color: rgb(var(--accent));
         }
+
+        .text-emerald-400 { color: rgb(var(--accent)) !important; }
+        .text-emerald-500 { color: rgb(var(--accent)) !important; }
+        .border-emerald-500 { border-color: rgb(var(--accent)) !important; }
+        .bg-emerald-500 { background-color: rgb(var(--accent)) !important; }
+        .from-emerald-500 { --tw-gradient-from: rgb(var(--accent)) var(--tw-gradient-from-position) !important; }
+
+        .text-cyan-400 { color: rgb(var(--accent-2)) !important; }
+        .border-cyan-500 { border-color: rgb(var(--accent-2)) !important; }
+        .to-cyan-400 { --tw-gradient-to: rgb(var(--accent-2)) var(--tw-gradient-to-position) !important; }
+
+        .text-purple-400 { color: rgb(var(--accent-3)) !important; }
+        .border-purple-500 { border-color: rgb(var(--accent-3)) !important; }
+
+        .text-yellow-400 { color: rgb(var(--accent-warm)) !important; }
+        .border-yellow-500 { border-color: rgb(var(--accent-warm)) !important; }
     </style>
 </head>
 <body class="bg-slate-900 text-gray-100 min-h-screen">
@@ -67,6 +90,16 @@
                     <span class="ml-2 sm:ml-4 text-[10px] sm:text-xs text-emerald-500 font-mono">v2.0.26</span>
                 </div>
                 <div class="flex items-center space-x-2 sm:space-x-6">
+                    <div class="hidden sm:flex items-center gap-2">
+                        <span class="text-[10px] sm:text-xs text-gray-400 font-mono">THEME</span>
+                        <select id="industryTheme" class="bg-slate-800 border border-slate-600 text-gray-200 text-[10px] sm:text-xs font-mono px-2 py-1 rounded">
+                            <option value="it">IT / Software</option>
+                            <option value="finance">Finance</option>
+                            <option value="engineering">Engineering</option>
+                            <option value="design">Design</option>
+                            <option value="health">Healthcare</option>
+                        </select>
+                    </div>
                     @auth
                         @if(auth()->id() === $user->id)
                             <a href="{{ route('portfolio.show', ['id' => auth()->id()]) }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-[10px] sm:text-sm">
@@ -82,7 +115,7 @@
                         <a href="{{ route('login') }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-[10px] sm:text-sm">
                             [ LOGIN ]
                         </a>
-                        <a href="{{ route('register') }}" class="bg-emerald-500 hover:bg-emerald-600 px-2 py-1 sm:px-4 sm:py-2 text-slate-900 font-bold font-mono text-[10px] sm:text-sm transition">
+                        <a href="{{ route('register') }}" class="bg-emerald-500 hover:brightness-110 px-2 py-1 sm:px-4 sm:py-2 text-slate-900 font-bold font-mono text-[10px] sm:text-sm transition">
                             <span class="hidden sm:inline">[ REGISTER ]</span>
                             <span class="sm:hidden">[ REG ]</span>
                         </a>
@@ -404,24 +437,90 @@
 
     <!-- Chart.js Configuration -->
     <script>
-        // Skill Radar Chart
         const skillData = @json($skills);
-        
+
+        const getRgb = (varName) => {
+            const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+            const [r, g, b] = value.split(' ').map((v) => parseInt(v, 10));
+            return { r, g, b };
+        };
+
+        const rgba = ({ r, g, b }, alpha) => `rgba(${r}, ${g}, ${b}, ${alpha})`;
+
+        const themePresets = {
+            it: {
+                accent: [16, 185, 129],
+                accent2: [6, 182, 212],
+                accent3: [139, 92, 246],
+                warm: [245, 158, 11]
+            },
+            finance: {
+                accent: [37, 99, 235],
+                accent2: [34, 197, 94],
+                accent3: [14, 116, 144],
+                warm: [234, 179, 8]
+            },
+            engineering: {
+                accent: [249, 115, 22],
+                accent2: [148, 163, 184],
+                accent3: [234, 179, 8],
+                warm: [245, 158, 11]
+            },
+            design: {
+                accent: [236, 72, 153],
+                accent2: [168, 85, 247],
+                accent3: [56, 189, 248],
+                warm: [251, 146, 60]
+            },
+            health: {
+                accent: [20, 184, 166],
+                accent2: [34, 197, 94],
+                accent3: [59, 130, 246],
+                warm: [248, 113, 113]
+            }
+        };
+
+        const applyTheme = (key) => {
+            const theme = themePresets[key] || themePresets.it;
+            const root = document.documentElement;
+            root.style.setProperty('--accent', theme.accent.join(' '));
+            root.style.setProperty('--accent-2', theme.accent2.join(' '));
+            root.style.setProperty('--accent-3', theme.accent3.join(' '));
+            root.style.setProperty('--accent-warm', theme.warm.join(' '));
+            localStorage.setItem('portfolioTheme', key);
+
+            if (window.skillRadar) {
+                const accent = getRgb('--accent');
+                window.skillRadar.data.datasets[0].backgroundColor = rgba(accent, 0.2);
+                window.skillRadar.data.datasets[0].borderColor = rgba(accent, 1);
+                window.skillRadar.data.datasets[0].pointBackgroundColor = rgba(accent, 1);
+                window.skillRadar.data.datasets[0].pointHoverBorderColor = rgba(accent, 1);
+                window.skillRadar.options.scales.r.grid.color = rgba(accent, 0.2);
+                window.skillRadar.options.scales.r.pointLabels.color = rgba(accent, 1);
+                window.skillRadar.options.scales.r.angleLines.color = rgba(accent, 0.1);
+                window.skillRadar.options.plugins.tooltip.titleColor = rgba(accent, 1);
+                window.skillRadar.options.plugins.tooltip.borderColor = rgba(accent, 1);
+                window.skillRadar.update();
+            }
+        };
+
         const ctx = document.getElementById('skillRadar').getContext('2d');
-        const skillRadar = new Chart(ctx, {
+        const accent = getRgb('--accent');
+
+        window.skillRadar = new Chart(ctx, {
             type: 'radar',
             data: {
                 labels: skillData.map(s => s.name),
                 datasets: [{
                     label: 'Skill Level',
                     data: skillData.map(s => s.score),
-                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                    borderColor: 'rgba(16, 185, 129, 1)',
+                    backgroundColor: rgba(accent, 0.2),
+                    borderColor: rgba(accent, 1),
                     borderWidth: 2,
-                    pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                    pointBackgroundColor: rgba(accent, 1),
                     pointBorderColor: '#fff',
                     pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgba(16, 185, 129, 1)',
+                    pointHoverBorderColor: rgba(accent, 1),
                     pointRadius: 4,
                     pointHoverRadius: 6
                 }]
@@ -443,11 +542,11 @@
                             }
                         },
                         grid: {
-                            color: 'rgba(16, 185, 129, 0.2)',
+                            color: rgba(accent, 0.2),
                             lineWidth: 1
                         },
                         pointLabels: {
-                            color: '#10b981',
+                            color: rgba(accent, 1),
                             font: {
                                 family: "'Roboto Mono', monospace",
                                 size: 11,
@@ -455,7 +554,7 @@
                             }
                         },
                         angleLines: {
-                            color: 'rgba(16, 185, 129, 0.1)'
+                            color: rgba(accent, 0.1)
                         }
                     }
                 },
@@ -465,9 +564,9 @@
                     },
                     tooltip: {
                         backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                        titleColor: '#10b981',
+                        titleColor: rgba(accent, 1),
                         bodyColor: '#d1d5db',
-                        borderColor: '#10b981',
+                        borderColor: rgba(accent, 1),
                         borderWidth: 1,
                         padding: 10,
                         displayColors: false,
@@ -488,6 +587,16 @@
                     }
                 }
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.getElementById('industryTheme');
+            const saved = localStorage.getItem('portfolioTheme') || 'it';
+            if (select) {
+                select.value = saved;
+                select.addEventListener('change', (event) => applyTheme(event.target.value));
+            }
+            applyTheme(saved);
         });
     </script>
 
