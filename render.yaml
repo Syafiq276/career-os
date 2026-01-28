@@ -45,7 +45,7 @@ services:
           property: password
 
   # PostgreSQL Database
-  - type: postgres
+  - type: pserv
     name: careeros-db
     plan: free
     databaseName: careeros
