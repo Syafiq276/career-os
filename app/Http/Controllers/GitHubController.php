@@ -13,7 +13,6 @@ class GitHubController extends Controller
 
     public function __construct(GitHubService $githubService)
     {
-        $this->middleware('auth');
         $this->githubService = $githubService;
     }
 
