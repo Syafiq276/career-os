@@ -21,8 +21,17 @@
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <!-- Theme Picker -->
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
+                <div class="flex items-center gap-2" aria-label="Theme color picker" role="group">
+                    <button type="button" data-theme-option="emerald" aria-pressed="false" class="w-4 h-4 rounded-full bg-emerald-500 border border-emerald-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400" title="Emerald"></button>
+                    <button type="button" data-theme-option="cyan" aria-pressed="false" class="w-4 h-4 rounded-full bg-cyan-500 border border-cyan-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-cyan-400" title="Cyan"></button>
+                    <button type="button" data-theme-option="violet" aria-pressed="false" class="w-4 h-4 rounded-full bg-violet-500 border border-violet-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-violet-400" title="Violet"></button>
+                    <button type="button" data-theme-option="amber" aria-pressed="false" class="w-4 h-4 rounded-full bg-amber-500 border border-amber-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-amber-400" title="Amber"></button>
+                    <button type="button" data-theme-option="rose" aria-pressed="false" class="w-4 h-4 rounded-full bg-rose-500 border border-rose-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-rose-400" title="Rose"></button>
+                </div>
+
+                <!-- Settings Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -83,6 +92,17 @@
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            </div>
+
+            <div class="px-4 mt-3">
+                <div class="text-xs uppercase text-gray-500 mb-2">Theme</div>
+                <div class="flex items-center gap-2" aria-label="Theme color picker" role="group">
+                    <button type="button" data-theme-option="emerald" aria-pressed="false" class="w-4 h-4 rounded-full bg-emerald-500 border border-emerald-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400" title="Emerald"></button>
+                    <button type="button" data-theme-option="cyan" aria-pressed="false" class="w-4 h-4 rounded-full bg-cyan-500 border border-cyan-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-cyan-400" title="Cyan"></button>
+                    <button type="button" data-theme-option="violet" aria-pressed="false" class="w-4 h-4 rounded-full bg-violet-500 border border-violet-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-violet-400" title="Violet"></button>
+                    <button type="button" data-theme-option="amber" aria-pressed="false" class="w-4 h-4 rounded-full bg-amber-500 border border-amber-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-amber-400" title="Amber"></button>
+                    <button type="button" data-theme-option="rose" aria-pressed="false" class="w-4 h-4 rounded-full bg-rose-500 border border-rose-700 ring-2 ring-transparent focus:outline-none focus:ring-2 focus:ring-rose-400" title="Rose"></button>
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">

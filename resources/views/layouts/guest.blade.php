@@ -13,6 +13,21 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Theme Variables -->
+        <style>
+            :root {
+                --accent-rgb: 16 185 129;
+            }
+
+            .bg-primary { background-color: rgb(var(--accent-rgb)); }
+            .hover\:bg-primary:hover { background-color: rgb(var(--accent-rgb)); }
+            .text-primary { color: rgb(var(--accent-rgb)); }
+            .border-primary { border-color: rgb(var(--accent-rgb)); }
+            .ring-primary { --tw-ring-color: rgb(var(--accent-rgb)); }
+            .focus\:ring-primary:focus { --tw-ring-color: rgb(var(--accent-rgb)); }
+            .focus\:border-primary:focus { border-color: rgb(var(--accent-rgb)); }
+        </style>
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
@@ -26,5 +41,32 @@
                 {{ $slot }}
             </div>
         </div>
+
+        <script>
+            (() => {
+                const themes = {
+                    emerald: { accent: [16, 185, 129] },
+                    cyan: { accent: [6, 182, 212] },
+                    violet: { accent: [139, 92, 246] },
+                    amber: { accent: [245, 158, 11] },
+                    rose: { accent: [244, 63, 94] }
+                };
+
+                const defaultTheme = 'emerald';
+
+                const applyTheme = (key) => {
+                    const theme = themes[key] || themes[defaultTheme];
+                    const root = document.documentElement;
+                    root.style.setProperty('--accent-rgb', theme.accent.join(' '));
+                    root.setAttribute('data-theme', key);
+                    localStorage.setItem('theme', key);
+                };
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    const saved = localStorage.getItem('theme') || defaultTheme;
+                    applyTheme(saved);
+                });
+            })();
+        </script>
     </body>
 </html>
