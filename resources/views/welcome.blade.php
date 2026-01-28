@@ -75,6 +75,44 @@
 
         .text-yellow-400 { color: rgb(var(--accent-warm)) !important; }
         .border-yellow-500 { border-color: rgb(var(--accent-warm)) !important; }
+
+        /* Industry layout variations */
+        html[data-theme="finance"] body {
+            background: linear-gradient(135deg, #0b1120 0%, #111827 100%);
+        }
+        html[data-theme="finance"] .bg-slate-800 { background-color: #111827 !important; }
+        html[data-theme="finance"] .bg-slate-950 { background-color: #0b1120 !important; }
+        html[data-theme="finance"] .neon-border {
+            box-shadow: 0 0 10px rgba(var(--accent) / 0.15), inset 0 0 10px rgba(var(--accent) / 0.08);
+            border-width: 1px;
+        }
+
+        html[data-theme="engineering"] body {
+            background: linear-gradient(135deg, #0f172a 0%, #2a1f14 100%);
+        }
+        html[data-theme="engineering"] .bg-slate-800 { background-color: #1e293b !important; }
+        html[data-theme="engineering"] .bg-slate-950 { background-color: #0f172a !important; }
+        html[data-theme="engineering"] .neon-border {
+            box-shadow: 0 0 16px rgba(var(--accent-warm) / 0.25), inset 0 0 16px rgba(var(--accent-warm) / 0.12);
+        }
+
+        html[data-theme="design"] body {
+            background: radial-gradient(circle at top, #1f103a 0%, #0b1120 55%, #0f172a 100%);
+        }
+        html[data-theme="design"] .bg-slate-800 { background-color: #1f233a !important; }
+        html[data-theme="design"] .bg-slate-950 { background-color: #0b1120 !important; }
+        html[data-theme="design"] .neon-border {
+            box-shadow: 0 0 24px rgba(var(--accent-3) / 0.35), inset 0 0 20px rgba(var(--accent) / 0.15);
+        }
+
+        html[data-theme="health"] body {
+            background: linear-gradient(135deg, #0b1120 0%, #0f172a 60%, #0f2f2a 100%);
+        }
+        html[data-theme="health"] .bg-slate-800 { background-color: #0f1f2b !important; }
+        html[data-theme="health"] .bg-slate-950 { background-color: #0b1120 !important; }
+        html[data-theme="health"] .neon-border {
+            box-shadow: 0 0 18px rgba(var(--accent) / 0.25), inset 0 0 18px rgba(var(--accent-2) / 0.12);
+        }
     </style>
 </head>
 <body class="bg-slate-900 text-gray-100 min-h-screen">
@@ -487,6 +525,7 @@
             root.style.setProperty('--accent-2', theme.accent2.join(' '));
             root.style.setProperty('--accent-3', theme.accent3.join(' '));
             root.style.setProperty('--accent-warm', theme.warm.join(' '));
+            root.setAttribute('data-theme', key);
             localStorage.setItem('portfolioTheme', key);
 
             if (window.skillRadar) {
