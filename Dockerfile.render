@@ -45,17 +45,25 @@ EXPOSE ${PORT:-8080}
 # Create startup script
 RUN echo '#!/bin/sh\n\
 set -e\n\
-echo "Waiting for database..."\n\
+echo "==> Starting CareerOS Deployment..."\n\
+echo "==> Waiting for database..."\n\
 sleep 5\n\
-echo "Running migrations..."\n\
-php artisan migrate --force || echo "Migration failed, continuing..."\n\
-echo "Seeding database..."\n\
-php artisan db:seed --force || echo "Seeding failed or already seeded, continuing..."\n\
-echo "Clearing caches..."\n\
-php artisan config:clear\n\
-php artisan cache:clear\n\
-php artisan view:clear\n\
-echo "Starting server on port ${PORT:-8080}..."\n\
+echo "==> Running migrations..."\n\
+php artisan migrate --force 2>&1 || echo "Migration failed, continuing..."\n\
+echo "==> Checking database connection..."\n\
+php artisan db:show 2>&1 || echo "DB show failed"\n\
+echo "==> Seeding database..."\n\
+php artisan db:seed --force 2>&1 || echo "Seeding failed or already seeded, continuing..."\n\
+echo "==> Clearing all caches..."\n\
+php artisan config:clear 2>&1\n\
+php artisan cache:clear 2>&1\n\
+php artisan view:clear 2>&1\n\
+php artisan route:clear 2>&1\n\
+echo "==> Caching routes..."\n\
+php artisan route:cache 2>&1 || echo "Route cache failed, continuing..."\n\
+echo "==> Checking users in database..."\n\
+php artisan tinker --execute="echo \\"Users count: \\" . \\App\\Models\\User::count();" 2>&1 || echo "Could not count users"\n\
+echo "==> Starting Laravel server on port ${PORT:-8080}..."\n\
 php artisan serve --host=0.0.0.0 --port=${PORT:-8080}\n\
 ' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
