@@ -6,6 +6,7 @@ use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 
 class ApplicationController extends Controller
 {
@@ -31,9 +32,48 @@ class ApplicationController extends Controller
         // Use scope for ordering and paginate
         $applications = $query->recent()->paginate(15);
 
+        $statusCounts = auth()->user()
+            ->applications()
+            ->select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        $totalApplications = $statusCounts->sum();
+        $applied = (int) ($statusCounts[Application::STATUS_APPLIED] ?? 0);
+        $screening = (int) ($statusCounts[Application::STATUS_SCREENING] ?? 0);
+        $interview = (int) ($statusCounts[Application::STATUS_INTERVIEW] ?? 0);
+        $offer = (int) ($statusCounts[Application::STATUS_OFFER] ?? 0);
+        $rejected = (int) ($statusCounts[Application::STATUS_REJECTED] ?? 0);
+        $ghosted = (int) ($statusCounts[Application::STATUS_GHOSTED] ?? 0);
+
+        $active = $applied + $screening + $interview + $offer;
+
+        $responseRate = $totalApplications > 0
+            ? round((($interview + $offer + $rejected) / $totalApplications) * 100)
+            : 0;
+
+        $interviewRate = $totalApplications > 0
+            ? round(($interview / $totalApplications) * 100)
+            : 0;
+
+        $offerRate = $totalApplications > 0
+            ? round(($offer / $totalApplications) * 100)
+            : 0;
+
+        $ghostedRate = $totalApplications > 0
+            ? round(($ghosted / $totalApplications) * 100)
+            : 0;
+
         return view('applications.index', [
             'applications' => $applications,
             'statuses' => Application::getStatuses(),
+            'statusCounts' => $statusCounts,
+            'totalApplications' => $totalApplications,
+            'activeApplications' => $active,
+            'responseRate' => $responseRate,
+            'interviewRate' => $interviewRate,
+            'offerRate' => $offerRate,
+            'ghostedRate' => $ghostedRate,
         ]);
     }
 

@@ -12,19 +12,103 @@
 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
     <div class="bg-white rounded-lg shadow-sm p-4">
         <div class="text-sm text-gray-500 mb-1">Total Applications</div>
-        <div class="text-2xl font-bold text-gray-800">{{ auth()->user()->applications()->count() }}</div>
+        <div class="text-2xl font-bold text-gray-800">{{ $totalApplications }}</div>
     </div>
     <div class="bg-white rounded-lg shadow-sm p-4">
         <div class="text-sm text-gray-500 mb-1">Active</div>
-        <div class="text-2xl font-bold text-blue-600">{{ auth()->user()->applications()->whereIn('status', ['applied', 'screening', 'interview'])->count() }}</div>
+        <div class="text-2xl font-bold text-blue-600">{{ $activeApplications }}</div>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4">
+        <div class="text-sm text-gray-500 mb-1">Interviews</div>
+        <div class="text-2xl font-bold text-purple-600">{{ $statusCounts['interview'] ?? 0 }}</div>
     </div>
     <div class="bg-white rounded-lg shadow-sm p-4">
         <div class="text-sm text-gray-500 mb-1">Offers</div>
-        <div class="text-2xl font-bold text-green-600">{{ auth()->user()->applications()->where('status', 'offer')->count() }}</div>
+        <div class="text-2xl font-bold text-green-600">{{ $statusCounts['offer'] ?? 0 }}</div>
     </div>
-    <div class="bg-white rounded-lg shadow-sm p-4">
-        <div class="text-sm text-gray-500 mb-1">Rejected</div>
-        <div class="text-2xl font-bold text-red-600">{{ auth()->user()->applications()->where('status', 'rejected')->count() }}</div>
+</div>
+
+<!-- Analysis Overview -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:col-span-2">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Application Funnel</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div class="p-3 bg-blue-50 rounded-lg border border-blue-100">
+                <div class="text-xs text-blue-600 uppercase">Applied</div>
+                <div class="text-xl font-bold text-blue-700">{{ $statusCounts['applied'] ?? 0 }}</div>
+            </div>
+            <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-100">
+                <div class="text-xs text-yellow-600 uppercase">Screening</div>
+                <div class="text-xl font-bold text-yellow-700">{{ $statusCounts['screening'] ?? 0 }}</div>
+            </div>
+            <div class="p-3 bg-purple-50 rounded-lg border border-purple-100">
+                <div class="text-xs text-purple-600 uppercase">Interview</div>
+                <div class="text-xl font-bold text-purple-700">{{ $statusCounts['interview'] ?? 0 }}</div>
+            </div>
+            <div class="p-3 bg-green-50 rounded-lg border border-green-100">
+                <div class="text-xs text-green-600 uppercase">Offer</div>
+                <div class="text-xl font-bold text-green-700">{{ $statusCounts['offer'] ?? 0 }}</div>
+            </div>
+            <div class="p-3 bg-red-50 rounded-lg border border-red-100">
+                <div class="text-xs text-red-600 uppercase">Rejected</div>
+                <div class="text-xl font-bold text-red-700">{{ $statusCounts['rejected'] ?? 0 }}</div>
+            </div>
+            <div class="p-3 bg-gray-50 rounded-lg border border-gray-100">
+                <div class="text-xs text-gray-600 uppercase">Ghosted</div>
+                <div class="text-xl font-bold text-gray-700">{{ $statusCounts['ghosted'] ?? 0 }}</div>
+            </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="p-3 bg-slate-50 rounded-lg border">
+                <div class="text-xs text-gray-600 uppercase">Response Rate</div>
+                <div class="text-lg font-bold text-gray-800">{{ $responseRate }}%</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border">
+                <div class="text-xs text-gray-600 uppercase">Interview Rate</div>
+                <div class="text-lg font-bold text-gray-800">{{ $interviewRate }}%</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border">
+                <div class="text-xs text-gray-600 uppercase">Offer Rate</div>
+                <div class="text-lg font-bold text-gray-800">{{ $offerRate }}%</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border">
+                <div class="text-xs text-gray-600 uppercase">Ghosted Rate</div>
+                <div class="text-lg font-bold text-gray-800">{{ $ghostedRate }}%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Improvement Notes</h3>
+        <ul class="space-y-3 text-sm text-gray-700">
+            @if($ghostedRate >= 40)
+                <li class="flex gap-2">
+                    <span class="text-gray-500">•</span>
+                    Follow up within 7–10 days after applying. A short, polite nudge can lift response rates.
+                </li>
+            @endif
+            @if($interviewRate < 20)
+                <li class="flex gap-2">
+                    <span class="text-gray-500">•</span>
+                    Tailor your resume to each role and mirror keywords from the job description.
+                </li>
+            @endif
+            @if($offerRate > 0)
+                <li class="flex gap-2">
+                    <span class="text-gray-500">•</span>
+                    You’re getting offers—prepare a negotiation script and a target range before interviews.
+                </li>
+            @endif
+            <li class="flex gap-2">
+                <span class="text-gray-500">•</span>
+                Practice 2–3 stories using STAR (Situation, Task, Action, Result) for common behavioral questions.
+            </li>
+            <li class="flex gap-2">
+                <span class="text-gray-500">•</span>
+                Track recruiter touchpoints in your notes to identify what messaging works best.
+            </li>
+        </ul>
     </div>
 </div>
 
