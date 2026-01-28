@@ -2,10 +2,10 @@ services:
   # Web Service (Laravel App)
   - type: web
     name: careeros
-    runtime: php
+    runtime: docker
     plan: free
-    buildCommand: "./render-build.sh"
-    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
+    dockerfilePath: ./Dockerfile.render
+    dockerContext: .
     envVars:
       - key: APP_ENV
         value: production
