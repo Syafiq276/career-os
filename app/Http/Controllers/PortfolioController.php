@@ -18,8 +18,8 @@ class PortfolioController extends Controller
             ->public()
             ->with([
                 'projects' => function($query) {
-                    $query->where('is_featured', true)
-                          ->orderBy('xp_gained', 'desc')
+                    $query->orderBy('xp_gained', 'desc')
+                          ->limit(10)
                           ->select('id', 'user_id', 'title', 'description', 'difficulty', 'tech_stack', 'repo_link', 'xp_gained');
                 },
                 'skills_data' => function($query) {
@@ -52,8 +52,8 @@ class PortfolioController extends Controller
         $user = User::where('id', $id)
             ->with([
                 'projects' => function($query) {
-                    $query->where('is_featured', true)
-                          ->orderBy('xp_gained', 'desc')
+                    $query->orderBy('xp_gained', 'desc')
+                          ->limit(10)
                           ->select('id', 'user_id', 'title', 'description', 'difficulty', 'tech_stack', 'repo_link', 'xp_gained');
                 },
                 'skills_data' => function($query) {
