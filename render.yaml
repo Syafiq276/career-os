@@ -1,0 +1,52 @@
+services:
+  # Web Service (Laravel App)
+  - type: web
+    name: careeros
+    runtime: php
+    plan: free
+    buildCommand: "./render-build.sh"
+    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: careeros-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: careeros-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: careeros-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: careeros-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: careeros-db
+          property: password
+
+  # PostgreSQL Database
+  - type: pgsql
+    name: careeros-db
+    plan: free
+    databaseName: careeros
+    user: careeros_user

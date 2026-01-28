@@ -1,0 +1,10 @@
+/tests
+/storage/*.key
+.env.example
+.env.docker
+.phpunit.result.cache
+docker/
+docker-compose.yml
+Dockerfile
+.dockerignore
+DOCKER_SETUP.md
