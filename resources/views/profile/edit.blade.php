@@ -21,6 +21,13 @@
                     </div>
                 </div>
 
+                <!-- Skill Tree Management -->
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="max-w-4xl">
+                        @include('profile.partials.manage-skills')
+                    </div>
+                </div>
+
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <div class="max-w-xl">
                         @include('profile.partials.update-password-form')

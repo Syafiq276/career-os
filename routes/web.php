@@ -6,6 +6,7 @@ use App\Http\Controllers\GitHubController;
 use App\Http\Controllers\GitHubSyncController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 
 // Public portfolio (CareerOS RPG HUD)
@@ -39,6 +40,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Skill Management
+    Route::post('/skills', [SkillController::class, 'store'])->name('skills.store');
+    Route::delete('/skills/{skill}', [SkillController::class, 'destroy'])->name('skills.destroy');
     
     // GitHub Integration
     Route::get('/github/redirect', [GitHubController::class, 'redirect'])->name('github.redirect');
