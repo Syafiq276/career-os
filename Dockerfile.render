@@ -49,6 +49,8 @@ echo "Waiting for database..."\n\
 sleep 5\n\
 echo "Running migrations..."\n\
 php artisan migrate --force || echo "Migration failed, continuing..."\n\
+echo "Seeding database..."\n\
+php artisan db:seed --force || echo "Seeding failed or already seeded, continuing..."\n\
 echo "Clearing caches..."\n\
 php artisan config:clear\n\
 php artisan cache:clear\n\
