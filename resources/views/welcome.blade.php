@@ -108,10 +108,31 @@
                     <h1 class="text-2xl font-orbitron font-bold text-emerald-400 mb-1 neon-text">
                         {{ strtoupper($user->name) }}
                     </h1>
-                    <p class="text-yellow-400 font-mono text-sm mb-3">[ BACKEND MAGE ]</p>
+                    
+                    @if($user->job_title)
+                        <p class="text-yellow-400 font-mono text-sm mb-2">[ {{ strtoupper($user->job_title) }} ]</p>
+                    @else
+                        <p class="text-yellow-400 font-mono text-sm mb-2">[ BACKEND MAGE ]</p>
+                    @endif
+                    
+                    @if($user->location)
+                        <p class="text-gray-500 font-mono text-xs mb-3">📍 {{ $user->location }}</p>
+                    @endif
+                    
+                    @if($user->tagline)
+                        <p class="text-cyan-400 text-sm text-center mb-3 italic font-semibold">"{{ $user->tagline }}"</p>
+                    @endif
                     
                     @if($user->bio)
                         <p class="text-gray-400 text-sm text-center mb-4 italic">{{ $user->bio }}</p>
+                    @endif
+                    
+                    @if($user->available_for_hire)
+                        <div class="mb-4">
+                            <span class="px-3 py-1 bg-green-500 text-slate-900 font-orbitron font-bold text-xs rounded-full animate-pulse">
+                                🟢 AVAILABLE FOR HIRE
+                            </span>
+                        </div>
                     @endif
 
                     <!-- XP Bar -->
@@ -129,21 +150,92 @@
 
                 <!-- Social Links -->
                 <div class="mt-6 space-y-2">
+                    @if($user->resume_path)
+                        <a href="{{ Storage::url($user->resume_path) }}" target="_blank" download class="block w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 border border-yellow-500 px-4 py-2 text-center text-white font-orbitron font-bold text-sm transition shadow-lg">
+                            📄 DOWNLOAD_RESUME()
+                        </a>
+                    @endif
+                    
                     @if($user->github_username)
                         <a href="https://github.com/{{ $user->github_username }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-emerald-500 hover:border-emerald-400 px-4 py-2 text-center text-emerald-400 font-mono text-sm transition">
                             <span class="terminal-line">GITHUB.CONNECT()</span>
                         </a>
                     @endif
+                    
                     @if($user->linkedin_url)
                         <a href="{{ $user->linkedin_url }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-blue-500 hover:border-blue-400 px-4 py-2 text-center text-blue-400 font-mono text-sm transition">
                             <span class="terminal-line">LINKEDIN.CONNECT()</span>
                         </a>
                     @endif
+                    
                     @if($user->portfolio_url)
                         <a href="{{ $user->portfolio_url }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-purple-500 hover:border-purple-400 px-4 py-2 text-center text-purple-400 font-mono text-sm transition">
                             <span class="terminal-line">WEBSITE.OPEN()</span>
                         </a>
                     @endif
+                    
+                    <!-- Additional Social Media -->
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        @if($user->twitter_username)
+                            <a href="https://twitter.com/{{ $user->twitter_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-sky-500 p-2 text-center text-sky-400 text-xs transition">
+                                𝕏 Twitter
+                            </a>
+                        @endif
+                        
+                        @if($user->instagram_username)
+                            <a href="https://instagram.com/{{ $user->instagram_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-pink-500 p-2 text-center text-pink-400 text-xs transition">
+                                📷 Instagram
+                            </a>
+                        @endif
+                        
+                        @if($user->youtube_url)
+                            <a href="{{ $user->youtube_url }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-red-500 p-2 text-center text-red-400 text-xs transition">
+                                ▶️ YouTube
+                            </a>
+                        @endif
+                        
+                        @if($user->twitch_username)
+                            <a href="https://twitch.tv/{{ $user->twitch_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-purple-500 p-2 text-center text-purple-400 text-xs transition">
+                                🎮 Twitch
+                            </a>
+                        @endif
+                        
+                        @if($user->discord_username)
+                            <div class="bg-slate-700 border border-indigo-500 p-2 text-center text-indigo-400 text-xs cursor-pointer" onclick="copyDiscord('{{ $user->discord_username }}')">
+                                💬 Discord
+                            </div>
+                        @endif
+                        
+                        @if($user->stackoverflow_id)
+                            <a href="https://stackoverflow.com/users/{{ $user->stackoverflow_id }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-orange-500 p-2 text-center text-orange-400 text-xs transition">
+                                📚 Stack
+                            </a>
+                        @endif
+                        
+                        @if($user->devto_username)
+                            <a href="https://dev.to/{{ $user->devto_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-gray-400 p-2 text-center text-gray-300 text-xs transition">
+                                📝 DEV
+                            </a>
+                        @endif
+                        
+                        @if($user->medium_username)
+                            <a href="https://medium.com/@{{ $user->medium_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-gray-400 p-2 text-center text-gray-300 text-xs transition">
+                                📖 Medium
+                            </a>
+                        @endif
+                        
+                        @if($user->behance_username)
+                            <a href="https://behance.net/{{ $user->behance_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-blue-600 p-2 text-center text-blue-400 text-xs transition">
+                                🎨 Behance
+                            </a>
+                        @endif
+                        
+                        @if($user->dribbble_username)
+                            <a href="https://dribbble.com/{{ $user->dribbble_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-pink-600 p-2 text-center text-pink-400 text-xs transition">
+                                🏀 Dribbble
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
 
@@ -229,7 +321,13 @@
 
                         <!-- Tech Stack (Loot) -->
                         @if($quest->tech_stack && count($quest->tech_stack) > 0)
-                            <div class="mb-4">
+           Discord username copy function
+        function copyDiscord(username) {
+            navigator.clipboard.writeText(username);
+            alert('Discord username copied: ' + username);
+        }
+        
+        //                  <div class="mb-4">
                                 <p class="text-xs font-mono text-gray-500 mb-2">[ LOOT_GAINED ]:</p>
                                 <div class="flex flex-wrap gap-2">
                                     @foreach($quest->tech_stack as $tech)
@@ -301,7 +399,7 @@
     <!-- Chart.js Configuration -->
     <script>
         // Skill Radar Chart
-        const skillData = {!! json_encode($skills) !!};
+        const skillData = @json($skills);
         
         const ctx = document.getElementById('skillRadar').getContext('2d');
         const skillRadar = new Chart(ctx, {
