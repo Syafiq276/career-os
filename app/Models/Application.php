@@ -26,6 +26,7 @@ class Application extends Model
         'salary_range',
         'status',
         'applied_at',
+        'responded_at',
         'interview_at',
         'notes',
     ];
@@ -42,6 +43,7 @@ class Application extends Model
     protected $casts = [
         'applied_at' => 'date',
         'interview_at' => 'date',
+        'responded_at' => 'date',
     ];
 
     /**
@@ -114,6 +116,18 @@ class Application extends Model
     public function scopeRecent($query)
     {
         return $query->orderBy('applied_at', 'desc');
+    }
+
+    /**
+     * Get response time in days from applied to responded.
+     */
+    public function getResponseDaysAttribute(): ?int
+    {
+        if (!$this->applied_at || !$this->responded_at) {
+            return null;
+        }
+
+        return $this->applied_at->diffInDays($this->responded_at);
     }
 }
 

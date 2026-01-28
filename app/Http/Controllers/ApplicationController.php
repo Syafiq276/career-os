@@ -64,6 +64,15 @@ class ApplicationController extends Controller
             ? round(($ghosted / $totalApplications) * 100)
             : 0;
 
+        $responseSamples = auth()->user()
+            ->applications()
+            ->whereNotNull('responded_at')
+            ->get(['applied_at', 'responded_at']);
+
+        $avgResponseDays = $responseSamples->count() > 0
+            ? (int) round($responseSamples->avg(fn ($app) => $app->applied_at->diffInDays($app->responded_at)))
+            : 0;
+
         return view('applications.index', [
             'applications' => $applications,
             'statuses' => Application::getStatuses(),
@@ -74,6 +83,7 @@ class ApplicationController extends Controller
             'interviewRate' => $interviewRate,
             'offerRate' => $offerRate,
             'ghostedRate' => $ghostedRate,
+            'avgResponseDays' => $avgResponseDays,
         ]);
     }
 
@@ -103,6 +113,10 @@ class ApplicationController extends Controller
             'interview_at' => 'nullable|date|after_or_equal:applied_at',
             'notes' => 'nullable|string',
         ]);
+
+        if ($validated['status'] !== Application::STATUS_APPLIED) {
+            $validated['responded_at'] = $validated['interview_at'] ?? now()->toDateString();
+        }
 
         auth()->user()->applications()->create($validated);
 
@@ -162,6 +176,12 @@ class ApplicationController extends Controller
             'interview_at' => 'nullable|date|after_or_equal:applied_at',
             'notes' => 'nullable|string',
         ]);
+
+        if ($validated['status'] === Application::STATUS_APPLIED) {
+            $validated['responded_at'] = null;
+        } elseif (!$application->responded_at) {
+            $validated['responded_at'] = $validated['interview_at'] ?? now()->toDateString();
+        }
 
         $application->update($validated);
 

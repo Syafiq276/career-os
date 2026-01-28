@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-3">
             <div class="p-3 bg-slate-50 rounded-lg border">
                 <div class="text-xs text-gray-600 uppercase">Response Rate</div>
                 <div class="text-lg font-bold text-gray-800">{{ $responseRate }}%</div>
@@ -75,6 +75,12 @@
             <div class="p-3 bg-slate-50 rounded-lg border">
                 <div class="text-xs text-gray-600 uppercase">Ghosted Rate</div>
                 <div class="text-lg font-bold text-gray-800">{{ $ghostedRate }}%</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border">
+                <div class="text-xs text-gray-600 uppercase">Avg Response</div>
+                <div class="text-lg font-bold text-gray-800">
+                    {{ $avgResponseDays }}d
+                </div>
             </div>
         </div>
     </div>
@@ -160,6 +166,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applied Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Response Time</th>
                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
@@ -190,6 +197,13 @@
                         <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                             <span class="hidden sm:inline">{{ $application->applied_at->format('M d, Y') }}</span>
                             <span class="sm:hidden">{{ $application->applied_at->format('m/d') }}</span>
+                        </td>
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
+                            @if($application->response_days !== null)
+                                {{ $application->response_days }} days
+                            @else
+                                <span class="text-gray-400">Pending</span>
+                            @endif
                         </td>
                         <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-xs sm:text-sm font-medium">
                             <div class="flex justify-end gap-1 sm:gap-2">
