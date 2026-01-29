@@ -8,6 +8,7 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ScannerController;
 
 // Public portfolio (CareerOS RPG HUD)
 Route::get('/', [PortfolioController::class, 'index'])->name('home');
@@ -59,4 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/github/preview', [GitHubSyncController::class, 'preview'])->name('github.preview');
 });
 
+Route::middleware(['auth'])->group(function(){
+    Route::get('tools/scanner', [ScannerController::class, 'index'])->name('scanner.index');
+    Route::post('tools/scanner', [ScannerController::class, 'analyze'])->name('scanner.analyze');
+
+});
 require __DIR__.'/auth.php';
