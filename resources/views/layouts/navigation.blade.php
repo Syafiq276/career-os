@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('portfolio.show', ['id' => Auth::id()])" :active="request()->routeIs('portfolio.show')">
                         {{ __('My Portfolio') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('scanner.index')" :active="request()->routeIs('scanner.*')">
+                        {{ __('Resume Scanner') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -84,6 +87,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('portfolio.show', ['id' => Auth::id()])" :active="request()->routeIs('portfolio.show')">
                 {{ __('My Portfolio') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('scanner.index')" :active="request()->routeIs('scanner.*')">
+                {{ __('Resume Scanner') }}
             </x-responsive-nav-link>
         </div>
 
