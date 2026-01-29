@@ -352,6 +352,69 @@
             </div>
         </div>
 
+        <!-- Contact Section -->
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
+                <h3 class="text-lg font-orbitron font-bold text-emerald-400 mb-3 border-b border-emerald-500 pb-2">
+                    [ CONTACT INFO ]
+                </h3>
+                <div class="space-y-3 text-sm text-gray-300 font-mono">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">NAME:</span>
+                        <span class="text-emerald-400">{{ strtoupper($user->name) }}</span>
+                    </div>
+                    @if($user->job_title)
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">ROLE:</span>
+                            <span class="text-yellow-400">{{ strtoupper($user->job_title) }}</span>
+                        </div>
+                    @endif
+                    @if($user->location)
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">LOCATION:</span>
+                            <span>{{ $user->location }}</span>
+                        </div>
+                    @endif
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">EMAIL:</span>
+                        <a href="mailto:{{ $user->email }}" class="text-cyan-400 hover:text-cyan-300 transition">{{ $user->email }}</a>
+                    </div>
+                    @if($user->linkedin_url)
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">LINKEDIN:</span>
+                            <a href="{{ $user->linkedin_url }}" target="_blank" class="text-blue-400 hover:text-blue-300 transition">OPEN</a>
+                        </div>
+                    @endif
+                    @if($user->github_username)
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">GITHUB:</span>
+                            <a href="https://github.com/{{ $user->github_username }}" target="_blank" class="text-emerald-400 hover:text-emerald-300 transition">/{{ $user->github_username }}</a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
+                <h3 class="text-lg font-orbitron font-bold text-emerald-400 mb-3 border-b border-emerald-500 pb-2">
+                    [ SEND A MESSAGE ]
+                </h3>
+                <form action="mailto:{{ $user->email }}" method="post" enctype="text/plain" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input type="text" name="name" placeholder="Your name" class="w-full bg-slate-900 border border-emerald-500/40 text-gray-200 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <input type="email" name="email" placeholder="Your email" class="w-full bg-slate-900 border border-emerald-500/40 text-gray-200 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <input type="text" name="subject" placeholder="Subject" class="w-full bg-slate-900 border border-emerald-500/40 text-gray-200 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <textarea name="message" rows="4" placeholder="Message" class="w-full bg-slate-900 border border-emerald-500/40 text-gray-200 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-emerald-500 hover:brightness-110 text-slate-900 font-bold font-mono px-5 py-2 rounded">
+                            SEND_MESSAGE()
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-500 font-mono">Opens your email client to send the message.</p>
+                </form>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer -->
