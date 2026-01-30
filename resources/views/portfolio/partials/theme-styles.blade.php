@@ -105,4 +105,14 @@
     html[data-theme="health"] .neon-border {
         box-shadow: 0 0 18px rgba(var(--accent) / 0.25), inset 0 0 18px rgba(var(--accent-2) / 0.12);
     }
+
+    html[data-theme="vscode"] body {
+        background: linear-gradient(135deg, #1e1e1e 0%, #252526 100%);
+    }
+    html[data-theme="vscode"] .bg-slate-800 { background-color: #252526 !important; }
+    html[data-theme="vscode"] .bg-slate-950 { background-color: #1e1e1e !important; }
+    html[data-theme="vscode"] .neon-border {
+        box-shadow: 0 0 14px rgba(var(--accent) / 0.25), inset 0 0 14px rgba(var(--accent) / 0.12);
+        border-width: 1px;
+    }
 </style>

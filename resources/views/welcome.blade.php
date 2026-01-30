@@ -25,6 +25,7 @@
                         <span class="text-[10px] sm:text-xs text-gray-400 font-mono">THEME</span>
                         <select id="industryTheme" class="bg-slate-800 border border-slate-600 text-gray-200 text-[10px] sm:text-xs font-mono px-2 py-1 rounded">
                             <option value="it">IT / Software</option>
+                            <option value="vscode">VS Code</option>
                             <option value="finance">Finance</option>
                             <option value="engineering">Engineering</option>
                             <option value="design">Design</option>

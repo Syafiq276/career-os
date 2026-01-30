@@ -3,91 +3,106 @@
 @section('title', 'All Applications')
 
 @section('content')
-<div class="mb-4 sm:mb-6">
-    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Job Applications</h2>
-    <p class="text-sm sm:text-base text-gray-600 mt-1">Track and manage your job search journey</p>
+<style>
+    .vscode-wrap { background: #1e1e1e; border: 1px solid #2a2a2a; }
+    .vscode-title { color: #d4d4d4; font-family: "Consolas", "Fira Code", monospace; }
+    .vscode-sub { color: #9da5b4; }
+    .vscode-card { background: #252526; border: 1px solid #2a2a2a; }
+    .vscode-pill { background: #2d2d2d; border: 1px solid #3c3c3c; color: #d4d4d4; }
+    .vscode-input { background: #1f1f1f; border: 1px solid #3c3c3c; color: #d4d4d4; }
+    .vscode-input:focus { outline: none; box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.35); border-color: #007acc; }
+    .vscode-btn { background: #007acc; color: #fff; }
+    .vscode-btn:hover { background: #1f8ad2; }
+    .vscode-btn-secondary { background: #2d2d2d; color: #d4d4d4; }
+    .vscode-btn-secondary:hover { background: #3c3c3c; }
+    .vscode-table thead { background: #2d2d2d; }
+    .vscode-table tbody { background: #252526; }
+    .vscode-table td, .vscode-table th { color: #d4d4d4; }
+</style>
+
+<div class="vscode-wrap rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
+    <h2 class="text-2xl sm:text-3xl font-bold vscode-title">Job Applications</h2>
+    <p class="text-sm sm:text-base vscode-sub mt-1">Track and manage your job search journey</p>
 </div>
 
 <!-- Stats Overview -->
 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
-    <div class="bg-white rounded-lg shadow-sm p-4">
-        <div class="text-sm text-gray-500 mb-1">Total Applications</div>
-        <div class="text-2xl font-bold text-gray-800">{{ $totalApplications }}</div>
+    <div class="vscode-card rounded-lg p-4">
+        <div class="text-sm text-slate-400 mb-1">Total Applications</div>
+        <div class="text-2xl font-bold text-white">{{ $totalApplications }}</div>
     </div>
-    <div class="bg-white rounded-lg shadow-sm p-4">
-        <div class="text-sm text-gray-500 mb-1">Active</div>
-        <div class="text-2xl font-bold text-blue-600">{{ $activeApplications }}</div>
+    <div class="vscode-card rounded-lg p-4">
+        <div class="text-sm text-slate-400 mb-1">Active</div>
+        <div class="text-2xl font-bold text-blue-400">{{ $activeApplications }}</div>
     </div>
-    <div class="bg-white rounded-lg shadow-sm p-4">
-        <div class="text-sm text-gray-500 mb-1">Interviews</div>
-        <div class="text-2xl font-bold text-purple-600">{{ $statusCounts['interview'] ?? 0 }}</div>
+    <div class="vscode-card rounded-lg p-4">
+        <div class="text-sm text-slate-400 mb-1">Interviews</div>
+        <div class="text-2xl font-bold text-purple-400">{{ $statusCounts['interview'] ?? 0 }}</div>
     </div>
-    <div class="bg-white rounded-lg shadow-sm p-4">
-        <div class="text-sm text-gray-500 mb-1">Offers</div>
-        <div class="text-2xl font-bold text-green-600">{{ $statusCounts['offer'] ?? 0 }}</div>
+    <div class="vscode-card rounded-lg p-4">
+        <div class="text-sm text-slate-400 mb-1">Offers</div>
+        <div class="text-2xl font-bold text-green-400">{{ $statusCounts['offer'] ?? 0 }}</div>
     </div>
 </div>
 
 <!-- Analysis Overview -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
-    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:col-span-2">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Application Funnel</h3>
+    <div class="vscode-card rounded-lg p-4 sm:p-6 lg:col-span-2">
+        <h3 class="text-lg font-semibold text-white mb-4">Application Funnel</h3>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div class="p-3 bg-blue-50 rounded-lg border border-blue-100">
-                <div class="text-xs text-blue-600 uppercase">Applied</div>
-                <div class="text-xl font-bold text-blue-700">{{ $statusCounts['applied'] ?? 0 }}</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-blue-300 uppercase">Applied</div>
+                <div class="text-xl font-bold text-blue-200">{{ $statusCounts['applied'] ?? 0 }}</div>
             </div>
-            <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-100">
-                <div class="text-xs text-yellow-600 uppercase">Screening</div>
-                <div class="text-xl font-bold text-yellow-700">{{ $statusCounts['screening'] ?? 0 }}</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-yellow-300 uppercase">Screening</div>
+                <div class="text-xl font-bold text-yellow-200">{{ $statusCounts['screening'] ?? 0 }}</div>
             </div>
-            <div class="p-3 bg-purple-50 rounded-lg border border-purple-100">
-                <div class="text-xs text-purple-600 uppercase">Interview</div>
-                <div class="text-xl font-bold text-purple-700">{{ $statusCounts['interview'] ?? 0 }}</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-purple-300 uppercase">Interview</div>
+                <div class="text-xl font-bold text-purple-200">{{ $statusCounts['interview'] ?? 0 }}</div>
             </div>
-            <div class="p-3 bg-green-50 rounded-lg border border-green-100">
-                <div class="text-xs text-green-600 uppercase">Offer</div>
-                <div class="text-xl font-bold text-green-700">{{ $statusCounts['offer'] ?? 0 }}</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-green-300 uppercase">Offer</div>
+                <div class="text-xl font-bold text-green-200">{{ $statusCounts['offer'] ?? 0 }}</div>
             </div>
-            <div class="p-3 bg-red-50 rounded-lg border border-red-100">
-                <div class="text-xs text-red-600 uppercase">Rejected</div>
-                <div class="text-xl font-bold text-red-700">{{ $statusCounts['rejected'] ?? 0 }}</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-red-300 uppercase">Rejected</div>
+                <div class="text-xl font-bold text-red-200">{{ $statusCounts['rejected'] ?? 0 }}</div>
             </div>
-            <div class="p-3 bg-gray-50 rounded-lg border border-gray-100">
-                <div class="text-xs text-gray-600 uppercase">Ghosted</div>
-                <div class="text-xl font-bold text-gray-700">{{ $statusCounts['ghosted'] ?? 0 }}</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-slate-300 uppercase">Ghosted</div>
+                <div class="text-xl font-bold text-slate-200">{{ $statusCounts['ghosted'] ?? 0 }}</div>
             </div>
         </div>
 
         <div class="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-3">
-            <div class="p-3 bg-slate-50 rounded-lg border">
-                <div class="text-xs text-gray-600 uppercase">Response Rate</div>
-                <div class="text-lg font-bold text-gray-800">{{ $responseRate }}%</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-slate-300 uppercase">Response Rate</div>
+                <div class="text-lg font-bold text-white">{{ $responseRate }}%</div>
             </div>
-            <div class="p-3 bg-slate-50 rounded-lg border">
-                <div class="text-xs text-gray-600 uppercase">Interview Rate</div>
-                <div class="text-lg font-bold text-gray-800">{{ $interviewRate }}%</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-slate-300 uppercase">Interview Rate</div>
+                <div class="text-lg font-bold text-white">{{ $interviewRate }}%</div>
             </div>
-            <div class="p-3 bg-slate-50 rounded-lg border">
-                <div class="text-xs text-gray-600 uppercase">Offer Rate</div>
-                <div class="text-lg font-bold text-gray-800">{{ $offerRate }}%</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-slate-300 uppercase">Offer Rate</div>
+                <div class="text-lg font-bold text-white">{{ $offerRate }}%</div>
             </div>
-            <div class="p-3 bg-slate-50 rounded-lg border">
-                <div class="text-xs text-gray-600 uppercase">Ghosted Rate</div>
-                <div class="text-lg font-bold text-gray-800">{{ $ghostedRate }}%</div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-slate-300 uppercase">Ghosted Rate</div>
+                <div class="text-lg font-bold text-white">{{ $ghostedRate }}%</div>
             </div>
-            <div class="p-3 bg-slate-50 rounded-lg border">
-                <div class="text-xs text-gray-600 uppercase">Avg Response</div>
-                <div class="text-lg font-bold text-gray-800">
-                    {{ $avgResponseDays }}d
-                </div>
+            <div class="p-3 vscode-pill rounded-lg">
+                <div class="text-xs text-slate-300 uppercase">Avg Response</div>
+                <div class="text-lg font-bold text-white">{{ $avgResponseDays }}d</div>
             </div>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Improvement Notes</h3>
-        <ul class="space-y-3 text-sm text-gray-700">
+    <div class="vscode-card rounded-lg p-4 sm:p-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Improvement Notes</h3>
+        <ul class="space-y-3 text-sm text-slate-300">
             @if($ghostedRate >= 40)
                 <li class="flex gap-2">
                     <span class="text-gray-500">•</span>
@@ -119,22 +134,22 @@
 </div>
 
 <!-- Filters & Search -->
-<div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-4 sm:mb-6">
+<div class="vscode-card rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
     <form method="GET" action="{{ route('applications.index') }}" class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
         
         <!-- Search Box -->
         <div class="flex-1 min-w-[200px]">
-            <input type="text" 
+                 <input type="text" 
                    name="search" 
                    value="{{ request('search') }}"
                    placeholder="🔍 Search company or job title..."
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                     class="vscode-input w-full px-4 py-2 rounded-lg">
         </div>
 
         <!-- Status Filter -->
         <div class="min-w-[180px]">
-            <select name="status" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                <select name="status" 
+                    class="vscode-input w-full px-4 py-2 rounded-lg">
                 <option value="">All Statuses</option>
                 @foreach($statuses as $status)
                     <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
@@ -145,10 +160,10 @@
         </div>
 
         <!-- Buttons -->
-        <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">
+        <button type="submit" class="vscode-btn px-6 py-2 rounded-lg transition">
             Filter
         </button>
-        <a href="{{ route('applications.index') }}" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition">
+        <a href="{{ route('applications.index') }}" class="vscode-btn-secondary px-6 py-2 rounded-lg transition">
             Clear
         </a>
     </form>
@@ -156,28 +171,28 @@
 
 <!-- Applications Table -->
 @if($applications->count() > 0)
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="vscode-card rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <table class="vscode-table min-w-full divide-y divide-gray-700">
+            <thead>
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job Title</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applied Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Response Time</th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Company</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Job Title</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Location</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Applied Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Response Time</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-slate-300 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="divide-y divide-gray-700">
                 @foreach($applications as $application)
-                    <tr class="hover:bg-gray-50 transition">
+                    <tr class="hover:bg-[#2d2d2d] transition">
                         <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                            <div class="font-medium text-gray-900 text-sm sm:text-base">{{ $application->company_name }}</div>
+                            <div class="font-medium text-slate-100 text-sm sm:text-base">{{ $application->company_name }}</div>
                         </td>
                         <td class="px-3 sm:px-6 py-3 sm:py-4">
-                            <div class="text-xs sm:text-sm text-gray-900">{{ $application->job_title }}</div>
+                            <div class="text-xs sm:text-sm text-slate-100">{{ $application->job_title }}</div>
                         </td>
                         <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                             {{ $application->location ?? 'N/A' }}
@@ -194,11 +209,11 @@
                                 {{ ucfirst($application->status) }}
                             </span>
                         </td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-400">
                             <span class="hidden sm:inline">{{ $application->applied_at->format('M d, Y') }}</span>
                             <span class="sm:hidden">{{ $application->applied_at->format('m/d') }}</span>
                         </td>
-                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
+                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-400">
                             @if($application->response_days !== null)
                                 {{ $application->response_days }} days
                             @else
@@ -234,10 +249,10 @@
     </div>
 
 @else
-    <div class="bg-white rounded-lg shadow-sm p-12 text-center">
-        <p class="text-gray-500 text-lg mb-4">No applications found</p>
+    <div class="vscode-card rounded-lg p-12 text-center">
+        <p class="text-slate-300 text-lg mb-4">No applications found</p>
         <a href="{{ route('applications.create') }}" 
-           class="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">
+           class="inline-block vscode-btn px-6 py-3 rounded-lg transition">
             ➕ Add Your First Application
         </a>
     </div>
