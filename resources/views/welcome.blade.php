@@ -11,7 +11,7 @@
 <body class="bg-slate-900 text-gray-100 min-h-screen">
 
     <!-- Navigation Bar -->
-    <nav class="bg-slate-950 border-b-2 border-emerald-500 sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+    <nav class="bg-white/90 border-b border-emerald-200 sticky top-0 z-50 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-14 sm:h-16">
                 <div class="flex items-center">
@@ -21,9 +21,16 @@
                     <span class="ml-2 sm:ml-4 text-[10px] sm:text-xs text-emerald-500 font-mono">v2.0.26</span>
                 </div>
                 <div class="flex items-center space-x-2 sm:space-x-6">
+                    <div class="hidden md:flex items-center gap-4 text-xs font-mono">
+                        <a href="#home" class="text-gray-500 hover:text-emerald-500 transition">Home</a>
+                        <a href="#projects" class="text-gray-500 hover:text-emerald-500 transition">Projects</a>
+                        <a href="#skills" class="text-gray-500 hover:text-emerald-500 transition">Skills</a>
+                        <a href="#about" class="text-gray-500 hover:text-emerald-500 transition">About</a>
+                        <a href="#contact" class="text-gray-500 hover:text-emerald-500 transition">Contact</a>
+                    </div>
                     <div class="hidden sm:flex items-center gap-2">
                         <span class="text-[10px] sm:text-xs text-gray-400 font-mono">THEME</span>
-                        <select id="industryTheme" class="bg-slate-800 border border-slate-600 text-gray-200 text-[10px] sm:text-xs font-mono px-2 py-1 rounded">
+                        <select id="industryTheme" class="bg-white border border-emerald-200 text-gray-600 text-[10px] sm:text-xs font-mono px-2 py-1 rounded">
                             <option value="it">IT / Software</option>
                             <option value="vscode">VS Code</option>
                             <option value="finance">Finance</option>
@@ -34,20 +41,20 @@
                     </div>
                     @auth
                         @if(auth()->id() === $user->id)
-                            <a href="{{ route('portfolio.show', ['id' => auth()->id()]) }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-[10px] sm:text-sm">
+                            <a href="{{ route('portfolio.show', ['id' => auth()->id()]) }}" class="text-emerald-500 hover:text-emerald-400 transition font-mono text-[10px] sm:text-sm">
                                 <span class="hidden sm:inline">[ MY_PORTFOLIO ]</span>
                                 <span class="sm:hidden">[ MINE ]</span>
                             </a>
-                            <a href="{{ route('applications.index') }}" class="text-cyan-400 hover:text-cyan-300 transition font-mono text-[10px] sm:text-sm">
+                            <a href="{{ route('applications.index') }}" class="text-cyan-500 hover:text-cyan-400 transition font-mono text-[10px] sm:text-sm">
                                 <span class="hidden sm:inline">[ ADMIN_PANEL ]</span>
                                 <span class="sm:hidden">[ ADMIN ]</span>
                             </a>
                         @endif
                     @else
-                        <a href="{{ route('login') }}" class="text-emerald-400 hover:text-emerald-300 transition font-mono text-[10px] sm:text-sm">
+                        <a href="{{ route('login') }}" class="text-emerald-500 hover:text-emerald-400 transition font-mono text-[10px] sm:text-sm">
                             [ LOGIN ]
                         </a>
-                        <a href="{{ route('register') }}" class="bg-emerald-500 hover:brightness-110 px-2 py-1 sm:px-4 sm:py-2 text-slate-900 font-bold font-mono text-[10px] sm:text-sm transition">
+                        <a href="{{ route('register') }}" class="bg-emerald-500 hover:brightness-110 px-2 py-1 sm:px-4 sm:py-2 text-white font-bold font-mono text-[10px] sm:text-sm transition rounded">
                             <span class="hidden sm:inline">[ REGISTER ]</span>
                             <span class="sm:hidden">[ REG ]</span>
                         </a>
@@ -58,182 +65,207 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
+    <main id="home" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
+        @php
+            $skillsByCategory = $skills->groupBy('category');
+        @endphp
 
-        <!-- Portfolio Header -->
-        <div class="bg-slate-800 neon-border rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
-            <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
-                <div class="relative">
-                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-600 flex items-center justify-center text-3xl sm:text-4xl font-orbitron font-bold text-slate-900 shadow-lg pulse-glow">
-                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                    </div>
-                    <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-emerald-500 px-3 py-1 rounded-full text-slate-900 font-orbitron font-bold text-xs">
-                        LVL {{ $level }}
-                    </div>
-                </div>
-
-                <div class="flex-1 text-center md:text-left">
-                    <h1 class="text-2xl sm:text-3xl font-orbitron font-bold text-emerald-400 neon-text">
-                        {{ strtoupper($user->name) }}
+        <!-- Hero -->
+        <section class="bg-white border border-emerald-100 rounded-2xl p-6 sm:p-10 shadow-sm">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="text-xs font-mono text-emerald-500">Portfolio</p>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">
+                        Welcome to My <span class="text-emerald-500">{{ $user->job_title ? $user->job_title : 'IT Journey' }}</span>
                     </h1>
-                    @if($user->job_title)
-                        <p class="text-yellow-400 font-mono text-xs sm:text-sm mb-2">[ {{ strtoupper($user->job_title) }} ]</p>
-                    @else
-                        <p class="text-yellow-400 font-mono text-xs sm:text-sm mb-2">[ BACKEND MAGE ]</p>
-                    @endif
-                    @if($user->location)
-                        <p class="text-gray-500 font-mono text-xs mb-2">📍 {{ $user->location }}</p>
-                    @endif
-                    @if($user->tagline)
-                        <p class="text-cyan-400 text-sm italic font-semibold">"{{ $user->tagline }}"</p>
-                    @endif
-                    @if($user->bio)
-                        <p class="text-gray-400 text-sm mt-3">{{ $user->bio }}</p>
-                    @endif
-                    @if($user->available_for_hire)
-                        <div class="mt-4">
-                            <span class="px-3 py-1 bg-green-500 text-slate-900 font-orbitron font-bold text-xs rounded-full animate-pulse">
-                                🟢 AVAILABLE FOR HIRE
-                            </span>
-                        </div>
-                    @endif
+                    <p class="text-gray-600 mt-4">
+                        {{ $user->bio ?? 'Building modern web experiences and solving problems through software engineering, mobile apps, and data-driven solutions.' }}
+                    </p>
+                    <div class="mt-6 flex gap-3">
+                        <a href="#projects" class="bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold">View Projects</a>
+                        <a href="#contact" class="border border-emerald-200 text-emerald-600 px-4 py-2 rounded-lg text-sm font-semibold">Get in Touch</a>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Portfolio Cards -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            <!-- Quick Stats -->
-            <div class="bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
-                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
-                    [ QUICK STATS ]
-                </h2>
-
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 font-mono text-sm">LEVEL:</span>
-                        <span class="text-emerald-400 font-orbitron font-bold text-xl">{{ $level }}</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 font-mono text-sm">TOTAL_XP:</span>
-                        <span class="text-cyan-400 font-orbitron font-bold text-xl">{{ number_format($totalXp) }}</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 font-mono text-sm">PROJECTS:</span>
-                        <span class="text-purple-400 font-orbitron font-bold text-xl">{{ $user->projects->count() }}</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 font-mono text-sm">SKILLS:</span>
-                        <span class="text-yellow-400 font-orbitron font-bold text-xl">{{ $skills->count() }}</span>
-                    </div>
-
-                    <div class="pt-2">
-                        <div class="flex justify-between text-xs font-mono mb-1">
-                            <span class="text-emerald-400">XP</span>
-                            <span class="text-gray-400">{{ $totalXp % 1000 }}/1000</span>
+                <div class="flex justify-center">
+                    <div class="bg-slate-800 neon-border rounded-2xl p-6 w-full max-w-sm text-center">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-600 flex items-center justify-center text-2xl font-orbitron font-bold text-slate-900 shadow-lg">
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
                         </div>
-                        <div class="w-full bg-slate-700 rounded-full h-3 border border-emerald-500">
-                            <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full rounded-full transition-all duration-500" style="width: {{ $xpProgress }}%;"></div>
+                        <h2 class="text-xl font-orbitron font-bold text-emerald-400 mt-4">{{ strtoupper($user->name) }}</h2>
+                        <p class="text-yellow-400 text-xs mt-1">[ {{ strtoupper($user->job_title ?? 'BACKEND MAGE') }} ]</p>
+                        <p class="text-gray-400 text-xs mt-2">{{ $user->location ?? 'Open to Remote' }}</p>
+                        <div class="mt-4 text-left">
+                            <div class="flex justify-between text-xs font-mono mb-1">
+                                <span class="text-emerald-400">XP</span>
+                                <span class="text-gray-400">{{ $totalXp % 1000 }}/1000</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-2 border border-emerald-500">
+                                <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full rounded-full" style="width: {{ $xpProgress }}%;"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 font-mono mt-2">{{ $xpToNextLevel }} XP to Level {{ $level + 1 }}</p>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mt-2">{{ $xpToNextLevel }} XP to Level {{ $level + 1 }}</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Skill Map -->
-            <div class="bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
-                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
-                    [ SKILL MAP ]
-                </h2>
-                <canvas id="skillRadar" class="max-w-full h-auto"></canvas>
+        <!-- What I Do -->
+        <section class="mt-10" id="what-i-do">
+            <h2 class="text-xl font-semibold text-gray-900 text-center">What I Do</h2>
+            <p class="text-gray-500 text-sm text-center mt-2">Exploring technology through web, mobile, and data solutions.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <div class="bg-white border border-emerald-100 rounded-xl p-5 shadow-sm">
+                    <h3 class="font-semibold text-gray-900">Web Development</h3>
+                    <p class="text-gray-500 text-sm mt-2">Building responsive websites and web apps with modern stacks.</p>
+                </div>
+                <div class="bg-white border border-emerald-100 rounded-xl p-5 shadow-sm">
+                    <h3 class="font-semibold text-gray-900">Mobile Applications</h3>
+                    <p class="text-gray-500 text-sm mt-2">Designing mobile-first apps and seamless user experiences.</p>
+                </div>
+                <div class="bg-white border border-emerald-100 rounded-xl p-5 shadow-sm">
+                    <h3 class="font-semibold text-gray-900">Data & Analytics</h3>
+                    <p class="text-gray-500 text-sm mt-2">Turning data into insights through dashboards and analysis.</p>
+                </div>
             </div>
+        </section>
 
-            <!-- Connect -->
-            <div class="bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
-                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
-                    [ CONNECT ]
-                </h2>
+        <!-- Projects -->
+        <section class="mt-12" id="projects">
+            <div class="text-center">
+                <h2 class="text-2xl font-semibold text-gray-900">My Projects</h2>
+                <p class="text-gray-500 text-sm mt-2">A showcase of work across web, mobile, and analytics.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                @forelse($featuredQuests as $quest)
+                    <div class="bg-white border border-emerald-100 rounded-xl p-5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold text-emerald-600">{{ strtoupper($quest->difficulty) }}</span>
+                            <span class="text-xs text-gray-400">+{{ $quest->xp_gained }} XP</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mt-2">{{ $quest->title }}</h3>
+                        <p class="text-sm text-gray-500 mt-2">{{ $quest->description }}</p>
 
-                <div class="space-y-2">
-                    @if($user->resume_path)
-                        <a href="{{ Storage::url($user->resume_path) }}" target="_blank" download class="block w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 border border-yellow-500 px-4 py-2 text-center text-white font-orbitron font-bold text-sm transition shadow-lg">
-                            📄 DOWNLOAD_RESUME()
-                        </a>
-                    @endif
-
-                    @if($user->github_username)
-                        <a href="https://github.com/{{ $user->github_username }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-emerald-500 hover:border-emerald-400 px-4 py-2 text-center text-emerald-400 font-mono text-sm transition">
-                            <span class="terminal-line">GITHUB.CONNECT()</span>
-                        </a>
-                    @endif
-
-                    @if($user->linkedin_url)
-                        <a href="{{ $user->linkedin_url }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-blue-500 hover:border-blue-400 px-4 py-2 text-center text-blue-400 font-mono text-sm transition">
-                            <span class="terminal-line">LINKEDIN.CONNECT()</span>
-                        </a>
-                    @endif
-
-                    @if($user->portfolio_url)
-                        <a href="{{ $user->portfolio_url }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-purple-500 hover:border-purple-400 px-4 py-2 text-center text-purple-400 font-mono text-sm transition">
-                            <span class="terminal-line">WEBSITE.OPEN()</span>
-                        </a>
-                    @endif
-
-                    <div class="grid grid-cols-2 gap-2 mt-4">
-                        @if($user->twitter_username)
-                            <a href="https://twitter.com/{{ $user->twitter_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-sky-500 p-2 text-center text-sky-400 text-xs transition">
-                                𝕏 Twitter
-                            </a>
-                        @endif
-                        @if($user->instagram_username)
-                            <a href="https://instagram.com/{{ $user->instagram_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-pink-500 p-2 text-center text-pink-400 text-xs transition">
-                                📷 Instagram
-                            </a>
-                        @endif
-                        @if($user->youtube_url)
-                            <a href="{{ $user->youtube_url }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-red-500 p-2 text-center text-red-400 text-xs transition">
-                                ▶️ YouTube
-                            </a>
-                        @endif
-                        @if($user->twitch_username)
-                            <a href="https://twitch.tv/{{ $user->twitch_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-purple-500 p-2 text-center text-purple-400 text-xs transition">
-                                🎮 Twitch
-                            </a>
-                        @endif
-                        @if($user->discord_username)
-                            <div class="bg-slate-700 border border-indigo-500 p-2 text-center text-indigo-400 text-xs cursor-pointer" onclick="copyDiscord('{{ $user->discord_username }}')">
-                                💬 Discord
+                        @if($quest->tech_stack && count($quest->tech_stack) > 0)
+                            <div class="flex flex-wrap gap-2 mt-4">
+                                @foreach($quest->tech_stack as $tech)
+                                    <span class="px-2 py-1 bg-emerald-50 border border-emerald-100 rounded text-xs text-emerald-600">
+                                        {{ $tech }}
+                                    </span>
+                                @endforeach
                             </div>
                         @endif
-                        @if($user->stackoverflow_id)
-                            <a href="https://stackoverflow.com/users/{{ $user->stackoverflow_id }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-orange-500 p-2 text-center text-orange-400 text-xs transition">
-                                📚 Stack
-                            </a>
+
+                        @if($quest->repo_link)
+                            <a href="{{ $quest->repo_link }}" target="_blank" class="inline-block mt-4 text-emerald-600 text-sm font-semibold">View Code →</a>
                         @endif
-                        @if($user->devto_username)
-                            <a href="https://dev.to/{{ $user->devto_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-gray-400 p-2 text-center text-gray-300 text-xs transition">
-                                📝 DEV
-                            </a>
-                        @endif
-                        @if($user->medium_username)
-                            <a href="https://medium.com/@{{ $user->medium_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-gray-400 p-2 text-center text-gray-300 text-xs transition">
-                                📖 Medium
-                            </a>
-                        @endif
-                        @if($user->behance_username)
-                            <a href="https://behance.net/{{ $user->behance_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-blue-600 p-2 text-center text-blue-400 text-xs transition">
-                                🎨 Behance
-                            </a>
-                        @endif
-                        @if($user->dribbble_username)
-                            <a href="https://dribbble.com/{{ $user->dribbble_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-pink-600 p-2 text-center text-pink-400 text-xs transition">
-                                🏀 Dribbble
-                            </a>
-                        @endif
+                    </div>
+                @empty
+                    <div class="col-span-3 text-center py-8 text-gray-400">No projects yet.</div>
+                @endforelse
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="mt-12" id="skills">
+            <div class="text-center">
+                <h2 class="text-2xl font-semibold text-gray-900">My Skills</h2>
+                <p class="text-gray-500 text-sm mt-2">A snapshot of my technical capabilities.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+                <div class="bg-white border border-emerald-100 rounded-xl p-5 shadow-sm lg:col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3">Skill Radar</h3>
+                    <canvas id="skillRadar" class="max-w-full h-auto"></canvas>
+                </div>
+                <div class="bg-white border border-emerald-100 rounded-xl p-5 shadow-sm lg:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @foreach($skillsByCategory as $category => $items)
+                            <div>
+                                <h4 class="text-sm font-semibold text-emerald-600">{{ $category }}</h4>
+                                <div class="mt-3 space-y-3">
+                                    @foreach($items as $skill)
+                                        <div>
+                                            <div class="flex justify-between text-xs text-gray-500">
+                                                <span>{{ $skill->name }}</span>
+                                                <span>{{ $skill->score }}%</span>
+                                            </div>
+                                            <div class="w-full h-2 bg-emerald-100 rounded-full mt-1">
+                                                <div class="h-2 bg-emerald-500 rounded-full" style="width: {{ $skill->score }}%"></div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- About -->
+        <section class="mt-12" id="about">
+            <div class="bg-white border border-emerald-100 rounded-2xl p-8 text-center shadow-sm">
+                <h2 class="text-2xl font-semibold text-gray-900">About Me</h2>
+                <p class="text-gray-500 text-sm mt-2 max-w-3xl mx-auto">
+                    {{ $user->bio ?? 'A developer focused on building clean, scalable systems and delightful user experiences.' }}
+                </p>
+                <div class="mt-6 flex justify-center gap-3 flex-wrap">
+                    <span class="px-3 py-1 bg-emerald-50 border border-emerald-100 rounded text-emerald-600 text-xs">Laravel 11</span>
+                    <span class="px-3 py-1 bg-emerald-50 border border-emerald-100 rounded text-emerald-600 text-xs">TailwindCSS</span>
+                    <span class="px-3 py-1 bg-emerald-50 border border-emerald-100 rounded text-emerald-600 text-xs">Chart.js</span>
+                    <span class="px-3 py-1 bg-emerald-50 border border-emerald-100 rounded text-emerald-600 text-xs">PHP 8.2+</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="mt-12" id="contact">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white border border-emerald-100 rounded-xl p-5 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-900">Contact Details</h3>
+                    <div class="space-y-3 text-sm text-gray-600 mt-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">NAME:</span>
+                            <span class="text-emerald-600">{{ strtoupper($user->name) }}</span>
+                        </div>
+                        @if($user->job_title)
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">ROLE:</span>
+                                <span class="text-gray-700">{{ strtoupper($user->job_title) }}</span>
+                            </div>
+                        @endif
+                        @if($user->location)
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">LOCATION:</span>
+                                <span>{{ $user->location }}</span>
+                            </div>
+                        @endif
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">EMAIL:</span>
+                            <a href="mailto:{{ $user->email }}" class="text-emerald-600 hover:text-emerald-500 transition">{{ $user->email }}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-emerald-100 rounded-xl p-5 shadow-sm lg:col-span-2">
+                    <h3 class="text-lg font-semibold text-gray-900">Send a Message</h3>
+                    <form action="mailto:{{ $user->email }}" method="post" enctype="text/plain" class="space-y-4 mt-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input type="text" name="name" placeholder="Your name" class="w-full border border-emerald-100 text-gray-700 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                            <input type="email" name="email" placeholder="Your email" class="w-full border border-emerald-100 text-gray-700 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                        </div>
+                        <input type="text" name="subject" placeholder="Subject" class="w-full border border-emerald-100 text-gray-700 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                        <textarea name="message" rows="4" placeholder="Message" class="w-full border border-emerald-100 text-gray-700 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-300"></textarea>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-5 py-2 rounded">
+                                Send Message
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-400">Opens your email client to send the message.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
 
         <!-- Quest Board (Projects) -->
         <div class="mb-6 sm:mb-8">
@@ -385,7 +417,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 border-t-2 border-emerald-500 mt-12 py-6">
+    <footer class="bg-white border-t border-emerald-100 mt-12 py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-gray-500 font-mono text-sm">
                 &copy; {{ date('Y') }} CareerOS. Built with <span class="text-red-500">❤</span> and <span class="text-emerald-400">{ code }</span>
