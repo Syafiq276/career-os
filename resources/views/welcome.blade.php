@@ -6,66 +6,53 @@
     <title>{{ $user->name }} | CareerOS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    @include('portfolio.partials.theme-styles')
+    <style>
+        body { background: #f8fafc; color: #0f172a; }
+        .neon-border { border: 1px solid #e2e8f0; box-shadow: none; }
+        .neon-text { text-shadow: none; }
+        .glitch { animation: none; }
+        .pulse-glow { animation: none; }
+
+        .text-emerald-400, .text-emerald-500 { color: #334155 !important; }
+        .text-cyan-400 { color: #475569 !important; }
+        .text-purple-400 { color: #475569 !important; }
+        .text-yellow-400 { color: #475569 !important; }
+        .border-emerald-100, .border-emerald-200, .border-emerald-500 { border-color: #e2e8f0 !important; }
+        .bg-emerald-500 { background-color: #334155 !important; color: #ffffff !important; }
+        .bg-emerald-50 { background-color: #f1f5f9 !important; }
+    </style>
 </head>
-<body class="bg-slate-900 text-gray-100 min-h-screen">
-
-    <!-- Navigation Bar -->
-    <nav class="bg-white/90 border-b border-emerald-200 sticky top-0 z-50 backdrop-blur-sm">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-14 sm:h-16">
-                <div class="flex items-center">
-                    <span class="text-lg sm:text-2xl font-orbitron font-bold text-emerald-400 neon-text glitch">
-                        &lt;CAREER<span class="text-yellow-400">OS</span>/&gt;
-                    </span>
-                    <span class="ml-2 sm:ml-4 text-[10px] sm:text-xs text-emerald-500 font-mono">v2.0.26</span>
-                </div>
-                <div class="flex items-center space-x-2 sm:space-x-6">
-                    <div class="hidden md:flex items-center gap-4 text-xs font-mono">
-                        <a href="#home" class="text-gray-500 hover:text-emerald-500 transition">Home</a>
-                        <a href="#projects" class="text-gray-500 hover:text-emerald-500 transition">Projects</a>
-                        <a href="#skills" class="text-gray-500 hover:text-emerald-500 transition">Skills</a>
-                        <a href="#about" class="text-gray-500 hover:text-emerald-500 transition">About</a>
-                        <a href="#contact" class="text-gray-500 hover:text-emerald-500 transition">Contact</a>
-                    </div>
-                    <div class="hidden sm:flex items-center gap-2">
-                        <span class="text-[10px] sm:text-xs text-gray-400 font-mono">THEME</span>
-                        <select id="industryTheme" class="bg-white border border-emerald-200 text-gray-600 text-[10px] sm:text-xs font-mono px-2 py-1 rounded">
-                            <option value="it">IT / Software</option>
-                            <option value="vscode">VS Code</option>
-                            <option value="finance">Finance</option>
-                            <option value="engineering">Engineering</option>
-                            <option value="design">Design</option>
-                            <option value="health">Healthcare</option>
-                        </select>
-                    </div>
-                    @auth
-                        @if(auth()->id() === $user->id)
-                            <a href="{{ route('portfolio.show', ['id' => auth()->id()]) }}" class="text-emerald-500 hover:text-emerald-400 transition font-mono text-[10px] sm:text-sm">
-                                <span class="hidden sm:inline">[ MY_PORTFOLIO ]</span>
-                                <span class="sm:hidden">[ MINE ]</span>
-                            </a>
-                            <a href="{{ route('applications.index') }}" class="text-cyan-500 hover:text-cyan-400 transition font-mono text-[10px] sm:text-sm">
-                                <span class="hidden sm:inline">[ ADMIN_PANEL ]</span>
-                                <span class="sm:hidden">[ ADMIN ]</span>
-                            </a>
-                        @endif
-                    @else
-                        <a href="{{ route('login') }}" class="text-emerald-500 hover:text-emerald-400 transition font-mono text-[10px] sm:text-sm">
-                            [ LOGIN ]
-                        </a>
-                        <a href="{{ route('register') }}" class="bg-emerald-500 hover:brightness-110 px-2 py-1 sm:px-4 sm:py-2 text-white font-bold font-mono text-[10px] sm:text-sm transition rounded">
-                            <span class="hidden sm:inline">[ REGISTER ]</span>
-                            <span class="sm:hidden">[ REG ]</span>
-                        </a>
-                    @endauth
-                </div>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="min-h-screen flex">
+        <!-- Side Navigation -->
+        <aside class="hidden md:flex w-64 flex-col border-r border-slate-200 bg-white px-6 py-8">
+            <div class="mb-8">
+                <div class="text-lg font-semibold text-slate-800">CareerOS</div>
+                <div class="text-xs text-slate-400 font-mono">v2.0.26</div>
             </div>
-        </div>
-    </nav>
+            <nav class="flex flex-col gap-3 text-sm">
+                <a href="#home" class="text-slate-600 hover:text-slate-900">Home</a>
+                <a href="#projects" class="text-slate-600 hover:text-slate-900">Projects</a>
+                <a href="#skills" class="text-slate-600 hover:text-slate-900">Skills</a>
+                <a href="#about" class="text-slate-600 hover:text-slate-900">About</a>
+                <a href="#contact" class="text-slate-600 hover:text-slate-900">Contact</a>
+            </nav>
+            <div class="mt-8 border-t border-slate-200 pt-4 text-sm">
+                @auth
+                    @if(auth()->id() === $user->id)
+                        <a href="{{ route('portfolio.show', ['id' => auth()->id()]) }}" class="block text-slate-600 hover:text-slate-900">My Portfolio</a>
+                        <a href="{{ route('applications.index') }}" class="block text-slate-600 hover:text-slate-900 mt-2">Admin Panel</a>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" class="block text-slate-600 hover:text-slate-900">Login</a>
+                    <a href="{{ route('register') }}" class="block text-slate-600 hover:text-slate-900 mt-2">Register</a>
+                @endauth
+            </div>
+        </aside>
 
-    <!-- Main Content -->
-    <main id="home" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
+        <div class="flex-1">
+            <!-- Main Content -->
+            <main id="home" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
         @php
             $skillsByCategory = $skills->groupBy('category');
         @endphp
@@ -268,19 +255,103 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-emerald-100 mt-12 py-6">
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-gray-500 font-mono text-sm">
-                &copy; {{ date('Y') }} CareerOS. Built with <span class="text-red-500">❤</span> and <span class="text-emerald-400">{ code }</span>
+                &copy; {{ date('Y') }} CareerOS. Built with <span class="text-red-500">❤</span> and <span class="text-slate-600">{ code }</span>
             </p>
             <p class="text-gray-600 font-mono text-xs mt-2">
-                system.status = <span class="text-emerald-400">OPERATIONAL</span>
+                system.status = <span class="text-slate-600">OPERATIONAL</span>
             </p>
         </div>
     </footer>
 
     <!-- Chart.js Configuration -->
-    @include('portfolio.partials.theme-script')
+    <script>
+        const skillData = @json($skills);
+        const accent = '100, 116, 139';
 
+        const ctx = document.getElementById('skillRadar').getContext('2d');
+        window.skillRadar = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: skillData.map(s => s.name),
+                datasets: [{
+                    label: 'Skill Level',
+                    data: skillData.map(s => s.score),
+                    backgroundColor: `rgba(${accent}, 0.15)`,
+                    borderColor: `rgba(${accent}, 0.9)`,
+                    borderWidth: 2,
+                    pointBackgroundColor: `rgba(${accent}, 0.9)`,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: `rgba(${accent}, 0.9)`,
+                    pointRadius: 3,
+                    pointHoverRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20,
+                            color: '#94a3b8',
+                            backdropColor: 'transparent',
+                            font: {
+                                family: "'Roboto Mono', monospace",
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(148, 163, 184, 0.3)',
+                            lineWidth: 1
+                        },
+                        pointLabels: {
+                            color: '#475569',
+                            font: {
+                                family: "'Roboto Mono', monospace",
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        },
+                        angleLines: {
+                            color: 'rgba(148, 163, 184, 0.2)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleColor: '#e2e8f0',
+                        bodyColor: '#cbd5f5',
+                        borderColor: 'rgba(100, 116, 139, 0.6)',
+                        borderWidth: 1,
+                        padding: 10,
+                        displayColors: false,
+                        titleFont: { family: "'Roboto Mono', monospace", size: 12, weight: 'bold' },
+                        bodyFont: { family: "'Roboto Mono', monospace", size: 11 },
+                        callbacks: {
+                            label: function(context) {
+                                return 'Level: ' + context.parsed.r + '/100';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const copyDiscord = (username) => {
+            if (!username) return;
+            navigator.clipboard.writeText(username);
+            alert('Discord username copied: ' + username);
+        };
+    </script>
+        </div>
+    </div>
 </body>
 </html>
