@@ -10,20 +10,15 @@ use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScannerController;
 
-// Public portfolio (CareerOS RPG HUD)
-Route::get('/', [PortfolioController::class, 'index'])->name('home');
+// Public portfolio and auth (rate-limited)
+Route::middleware('throttle:60,1')->group(function () {
+    Route::get('/', [PortfolioController::class, 'index'])->name('home');
+    Route::get('/portfolio/{id}', [PortfolioController::class, 'show'])->name('portfolio.show');
 
-// Test route for debugging layout
-Route::get('/test', function () {
-    return view('test');
-})->middleware('auth');
-
-// Public portfolio by user ID
-Route::get('/portfolio/{id}', [PortfolioController::class, 'show'])->name('portfolio.show');
-
-// Social Authentication (GitHub, Google)
-Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])->name('auth.social.redirect');
-Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])->name('auth.social.callback');
+    // Social Authentication (GitHub, Google)
+    Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])->name('auth.social.redirect');
+    Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])->name('auth.social.callback');
+});
 
 // Redirect dashboard to applications
 Route::get('/dashboard', function () {
@@ -60,9 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/github/preview', [GitHubSyncController::class, 'preview'])->name('github.preview');
 });
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('tools/scanner', [ScannerController::class, 'index'])->name('scanner.index');
-    Route::post('tools/scanner', [ScannerController::class, 'analyze'])->name('scanner.analyze');
-
+    Route::post('tools/scanner', [ScannerController::class, 'analyze'])->middleware('throttle:10,1')->name('scanner.analyze');
 });
 require __DIR__.'/auth.php';
