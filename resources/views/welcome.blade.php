@@ -60,54 +60,74 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
 
-        <!-- HUD Header Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            
-            <!-- Player Avatar & Info -->
-            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
-                <div class="flex flex-col items-center">
-                    <!-- Avatar with Progress Ring -->
-                    <div class="relative mb-3 sm:mb-4">
-                        <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-600 flex items-center justify-center text-3xl sm:text-4xl font-orbitron font-bold text-slate-900 shadow-lg pulse-glow">
-                            {{ strtoupper(substr($user->name, 0, 1)) }}
-                        </div>
-                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-emerald-500 px-3 py-1 rounded-full text-slate-900 font-orbitron font-bold text-xs">
-                            LVL {{ $level }}
-                        </div>
+        <!-- Portfolio Header -->
+        <div class="bg-slate-800 neon-border rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
+            <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+                <div class="relative">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-600 flex items-center justify-center text-3xl sm:text-4xl font-orbitron font-bold text-slate-900 shadow-lg pulse-glow">
+                        {{ strtoupper(substr($user->name, 0, 1)) }}
                     </div>
-                    
-                    <h1 class="text-xl sm:text-2xl font-orbitron font-bold text-emerald-400 mb-1 neon-text text-center">
+                    <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-emerald-500 px-3 py-1 rounded-full text-slate-900 font-orbitron font-bold text-xs">
+                        LVL {{ $level }}
+                    </div>
+                </div>
+
+                <div class="flex-1 text-center md:text-left">
+                    <h1 class="text-2xl sm:text-3xl font-orbitron font-bold text-emerald-400 neon-text">
                         {{ strtoupper($user->name) }}
                     </h1>
-                    
                     @if($user->job_title)
-                        <p class="text-yellow-400 font-mono text-xs sm:text-sm mb-2 text-center">[ {{ strtoupper($user->job_title) }} ]</p>
+                        <p class="text-yellow-400 font-mono text-xs sm:text-sm mb-2">[ {{ strtoupper($user->job_title) }} ]</p>
                     @else
-                        <p class="text-yellow-400 font-mono text-xs sm:text-sm mb-2 text-center">[ BACKEND MAGE ]</p>
+                        <p class="text-yellow-400 font-mono text-xs sm:text-sm mb-2">[ BACKEND MAGE ]</p>
                     @endif
-                    
                     @if($user->location)
-                        <p class="text-gray-500 font-mono text-xs mb-3">📍 {{ $user->location }}</p>
+                        <p class="text-gray-500 font-mono text-xs mb-2">📍 {{ $user->location }}</p>
                     @endif
-                    
                     @if($user->tagline)
-                        <p class="text-cyan-400 text-sm text-center mb-3 italic font-semibold">"{{ $user->tagline }}"</p>
+                        <p class="text-cyan-400 text-sm italic font-semibold">"{{ $user->tagline }}"</p>
                     @endif
-                    
                     @if($user->bio)
-                        <p class="text-gray-400 text-sm text-center mb-4 italic">{{ $user->bio }}</p>
+                        <p class="text-gray-400 text-sm mt-3">{{ $user->bio }}</p>
                     @endif
-                    
                     @if($user->available_for_hire)
-                        <div class="mb-4">
+                        <div class="mt-4">
                             <span class="px-3 py-1 bg-green-500 text-slate-900 font-orbitron font-bold text-xs rounded-full animate-pulse">
                                 🟢 AVAILABLE FOR HIRE
                             </span>
                         </div>
                     @endif
+                </div>
+            </div>
+        </div>
 
-                    <!-- XP Bar -->
-                    <div class="w-full mb-2">
+        <!-- Portfolio Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <!-- Quick Stats -->
+            <div class="bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
+                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
+                    [ QUICK STATS ]
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400 font-mono text-sm">LEVEL:</span>
+                        <span class="text-emerald-400 font-orbitron font-bold text-xl">{{ $level }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400 font-mono text-sm">TOTAL_XP:</span>
+                        <span class="text-cyan-400 font-orbitron font-bold text-xl">{{ number_format($totalXp) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400 font-mono text-sm">PROJECTS:</span>
+                        <span class="text-purple-400 font-orbitron font-bold text-xl">{{ $user->projects->count() }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400 font-mono text-sm">SKILLS:</span>
+                        <span class="text-yellow-400 font-orbitron font-bold text-xl">{{ $skills->count() }}</span>
+                    </div>
+
+                    <div class="pt-2">
                         <div class="flex justify-between text-xs font-mono mb-1">
                             <span class="text-emerald-400">XP</span>
                             <span class="text-gray-400">{{ $totalXp % 1000 }}/1000</span>
@@ -115,92 +135,96 @@
                         <div class="w-full bg-slate-700 rounded-full h-3 border border-emerald-500">
                             <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full rounded-full transition-all duration-500" style="width: {{ $xpProgress }}%;"></div>
                         </div>
+                        <p class="text-xs text-gray-500 font-mono mt-2">{{ $xpToNextLevel }} XP to Level {{ $level + 1 }}</p>
                     </div>
-                    <p class="text-xs text-gray-500 font-mono">{{ $xpToNextLevel }} XP to Level {{ $level + 1 }}</p>
                 </div>
+            </div>
 
-                <!-- Social Links -->
-                <div class="mt-6 space-y-2">
+            <!-- Skill Map -->
+            <div class="bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
+                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
+                    [ SKILL MAP ]
+                </h2>
+                <canvas id="skillRadar" class="max-w-full h-auto"></canvas>
+            </div>
+
+            <!-- Connect -->
+            <div class="bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
+                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
+                    [ CONNECT ]
+                </h2>
+
+                <div class="space-y-2">
                     @if($user->resume_path)
                         <a href="{{ Storage::url($user->resume_path) }}" target="_blank" download class="block w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 border border-yellow-500 px-4 py-2 text-center text-white font-orbitron font-bold text-sm transition shadow-lg">
                             📄 DOWNLOAD_RESUME()
                         </a>
                     @endif
-                    
+
                     @if($user->github_username)
                         <a href="https://github.com/{{ $user->github_username }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-emerald-500 hover:border-emerald-400 px-4 py-2 text-center text-emerald-400 font-mono text-sm transition">
                             <span class="terminal-line">GITHUB.CONNECT()</span>
                         </a>
                     @endif
-                    
+
                     @if($user->linkedin_url)
                         <a href="{{ $user->linkedin_url }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-blue-500 hover:border-blue-400 px-4 py-2 text-center text-blue-400 font-mono text-sm transition">
                             <span class="terminal-line">LINKEDIN.CONNECT()</span>
                         </a>
                     @endif
-                    
+
                     @if($user->portfolio_url)
                         <a href="{{ $user->portfolio_url }}" target="_blank" class="block w-full bg-slate-700 hover:bg-slate-600 border border-purple-500 hover:border-purple-400 px-4 py-2 text-center text-purple-400 font-mono text-sm transition">
                             <span class="terminal-line">WEBSITE.OPEN()</span>
                         </a>
                     @endif
-                    
-                    <!-- Additional Social Media -->
-                    <div class="grid grid-cols-2 sm:grid-cols-2 gap-2 mt-4">
+
+                    <div class="grid grid-cols-2 gap-2 mt-4">
                         @if($user->twitter_username)
                             <a href="https://twitter.com/{{ $user->twitter_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-sky-500 p-2 text-center text-sky-400 text-xs transition">
                                 𝕏 Twitter
                             </a>
                         @endif
-                        
                         @if($user->instagram_username)
                             <a href="https://instagram.com/{{ $user->instagram_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-pink-500 p-2 text-center text-pink-400 text-xs transition">
                                 📷 Instagram
                             </a>
                         @endif
-                        
                         @if($user->youtube_url)
                             <a href="{{ $user->youtube_url }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-red-500 p-2 text-center text-red-400 text-xs transition">
                                 ▶️ YouTube
                             </a>
                         @endif
-                        
                         @if($user->twitch_username)
                             <a href="https://twitch.tv/{{ $user->twitch_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-purple-500 p-2 text-center text-purple-400 text-xs transition">
                                 🎮 Twitch
                             </a>
                         @endif
-                        
                         @if($user->discord_username)
                             <div class="bg-slate-700 border border-indigo-500 p-2 text-center text-indigo-400 text-xs cursor-pointer" onclick="copyDiscord('{{ $user->discord_username }}')">
                                 💬 Discord
                             </div>
                         @endif
-                        
                         @if($user->stackoverflow_id)
                             <a href="https://stackoverflow.com/users/{{ $user->stackoverflow_id }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-orange-500 p-2 text-center text-orange-400 text-xs transition">
                                 📚 Stack
                             </a>
                         @endif
-                        
                         @if($user->devto_username)
                             <a href="https://dev.to/{{ $user->devto_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-gray-400 p-2 text-center text-gray-300 text-xs transition">
                                 📝 DEV
                             </a>
                         @endif
-                        
                         @if($user->medium_username)
                             <a href="https://medium.com/@{{ $user->medium_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-gray-400 p-2 text-center text-gray-300 text-xs transition">
                                 📖 Medium
                             </a>
                         @endif
-                        
                         @if($user->behance_username)
                             <a href="https://behance.net/{{ $user->behance_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-blue-600 p-2 text-center text-blue-400 text-xs transition">
                                 🎨 Behance
                             </a>
                         @endif
-                        
                         @if($user->dribbble_username)
                             <a href="https://dribbble.com/{{ $user->dribbble_username }}" target="_blank" class="bg-slate-700 hover:bg-slate-600 border border-pink-600 p-2 text-center text-pink-400 text-xs transition">
                                 🏀 Dribbble
@@ -209,64 +233,12 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Stats Panel -->
-            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
-                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
-                    [ PLAYER STATS ]
-                </h2>
-                
-                <div class="space-y-4">
-                    <!-- Level -->
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 font-mono text-sm">LEVEL:</span>
-                        <span class="text-emerald-400 font-orbitron font-bold text-xl">{{ $level }}</span>
-                    </div>
-                    
-                    <!-- Total XP -->
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 font-mono text-sm">TOTAL_XP:</span>
-                        <span class="text-cyan-400 font-orbitron font-bold text-xl">{{ number_format($totalXp) }}</span>
-                    </div>
-                    
-                    <!-- Quests Completed -->
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 font-mono text-sm">QUESTS:</span>
-                        <span class="text-purple-400 font-orbitron font-bold text-xl">{{ $user->projects->count() }}</span>
-                    </div>
-                    
-                    <!-- Skills Unlocked -->
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400 font-mono text-sm">SKILLS:</span>
-                        <span class="text-yellow-400 font-orbitron font-bold text-xl">{{ $skills->count() }}</span>
-                    </div>
-
-                    <!-- Health Bar (Caffeine) -->
-                    <div class="pt-4">
-                        <div class="flex justify-between text-xs font-mono mb-1">
-                            <span class="text-red-400">CAFFEINE:</span>
-                            <span class="text-gray-400">100/100</span>
-                        </div>
-                        <div class="w-full bg-slate-700 rounded-full h-3 border border-red-500">
-                            <div class="bg-gradient-to-r from-red-500 to-orange-400 h-full rounded-full" style="width: 100%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Skill Radar Chart -->
-            <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
-                <h2 class="text-base sm:text-lg font-orbitron font-bold text-emerald-400 mb-3 sm:mb-4 border-b border-emerald-500 pb-2">
-                    [ SKILL TREE ]
-                </h2>
-                <canvas id="skillRadar" class="max-w-full h-auto"></canvas>
-            </div>
         </div>
 
         <!-- Quest Board (Projects) -->
         <div class="mb-6 sm:mb-8">
             <h2 class="text-2xl sm:text-3xl font-orbitron font-bold text-emerald-400 mb-4 sm:mb-6 neon-text">
-                [ COMPLETED QUESTS ]
+                [ PROJECTS ]
             </h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -322,7 +294,7 @@
         <!-- About Section -->
         <div class="bg-gradient-to-r from-emerald-900 to-cyan-900 neon-border rounded-lg p-8 text-center">
             <h2 class="text-3xl font-orbitron font-bold text-emerald-400 mb-4 neon-text">
-                [ ABOUT CAREER<span class="text-yellow-400">OS</span> ]
+                [ ABOUT PORTFOLIO ]
             </h2>
             <p class="text-gray-300 text-lg max-w-3xl mx-auto font-mono leading-relaxed">
                 A <span class="text-emerald-400 font-bold">gamified portfolio system</span> that transforms your career journey into an RPG adventure. 
@@ -351,7 +323,7 @@
         <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             <div class="lg:col-span-1 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
                 <h3 class="text-lg font-orbitron font-bold text-emerald-400 mb-3 border-b border-emerald-500 pb-2">
-                    [ CONTACT INFO ]
+                    [ CONTACT DETAILS ]
                 </h3>
                 <div class="space-y-3 text-sm text-gray-300 font-mono">
                     <div class="flex justify-between">
@@ -391,7 +363,7 @@
 
             <div class="lg:col-span-2 bg-slate-800 neon-border rounded-lg p-4 sm:p-6">
                 <h3 class="text-lg font-orbitron font-bold text-emerald-400 mb-3 border-b border-emerald-500 pb-2">
-                    [ SEND A MESSAGE ]
+                    [ MESSAGE ]
                 </h3>
                 <form action="mailto:{{ $user->email }}" method="post" enctype="text/plain" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
