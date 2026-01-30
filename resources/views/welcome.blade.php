@@ -292,13 +292,7 @@
 
                         <!-- Tech Stack (Loot) -->
                         @if($quest->tech_stack && count($quest->tech_stack) > 0)
-           Discord username copy function
-        function copyDiscord(username) {
-            navigator.clipboard.writeText(username);
-            alert('Discord username copied: ' + username);
-        }
-        
-        //                  <div class="mb-4">
+                            <div class="mb-4">
                                 <p class="text-xs font-mono text-gray-500 mb-2">[ LOOT_GAINED ]:</p>
                                 <div class="flex flex-wrap gap-2">
                                     @foreach($quest->tech_stack as $tech)

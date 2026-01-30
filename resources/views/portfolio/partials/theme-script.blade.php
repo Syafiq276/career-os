@@ -167,4 +167,10 @@
         }
         applyTheme(saved);
     });
+
+    const copyDiscord = (username) => {
+        if (!username) return;
+        navigator.clipboard.writeText(username);
+        alert('Discord username copied: ' + username);
+    };
 </script>
